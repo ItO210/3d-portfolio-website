@@ -4,6 +4,32 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import gsap from "gsap";
+import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
+
+const vertexShader = `
+  varying vec2 vUv;
+
+  void main() {
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`;
+
+const fragmentShader = `
+  uniform sampler2D baseTexture;
+  uniform sampler2D bloomTexture;
+  varying vec2 vUv;
+
+  void main() {
+    vec4 base = texture2D(baseTexture, vUv);
+    vec4 bloom = texture2D(bloomTexture, vUv);
+    gl_FragColor = base + bloom;
+  }
+`;
 
 export default function Canvas() {
   const canvasRef = useRef(null);
@@ -11,6 +37,7 @@ export default function Canvas() {
   useEffect(() => {
     const container = canvasRef.current;
 
+    // ------------------ Setup ------------------
     const sizes = {
       width: container.clientWidth,
       height: container.clientHeight,
@@ -35,8 +62,68 @@ export default function Canvas() {
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
+    //    controls.enablePan = false;
     controls.target.set(0, 2.5, 0);
 
+    // ------------------ Postprocessing ------------------
+    const renderScene = new RenderPass(scene, camera);
+    const composer = new EffectComposer(renderer);
+    composer.addPass(renderScene);
+    const bloomPass = new UnrealBloomPass(
+      new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2),
+      0.2,
+      0.5,
+      0,
+    );
+    composer.addPass(bloomPass);
+    composer.renderToScreen = false;
+
+    const mixPass = new ShaderPass(
+      new THREE.ShaderMaterial({
+        uniforms: {
+          baseTexture: { value: null },
+          bloomTexture: { value: composer.renderTarget2.texture },
+        },
+        vertexShader,
+        fragmentShader,
+      }),
+      "baseTexture",
+    );
+
+    const finalComposer = new EffectComposer(renderer);
+    finalComposer.addPass(renderScene);
+    finalComposer.addPass(mixPass);
+    finalComposer.addPass(new OutputPass());
+
+    // ------------------ Bloom Config ------------------
+    const BLOOM_SCENE = 1;
+    const bloomLayer = new THREE.Layers();
+    bloomLayer.set(BLOOM_SCENE);
+    const darkMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+    const darkGlassMaterial = new THREE.MeshBasicMaterial({
+      color: 0x000000,
+      transparent: true,
+      opacity: 0,
+    });
+    const materials = {};
+
+    function nonBloomed(obj) {
+      if (obj.isMesh && !bloomLayer.test(obj.layers)) {
+        materials[obj.uuid] = obj.material;
+        obj.material = obj.name.includes("Glass")
+          ? darkGlassMaterial
+          : darkMaterial;
+      }
+    }
+
+    function restoreMaterial(obj) {
+      if (materials[obj.uuid]) {
+        obj.material = materials[obj.uuid];
+        delete materials[obj.uuid];
+      }
+    }
+
+    // ------------------ Assets ------------------
     const zAxisFans = [];
     const yAxisFans = [];
     const raycasterObjects = [];
@@ -60,18 +147,27 @@ export default function Canvas() {
       loadedTextures.red[key] = redTexture;
     });
 
+    const environmentMap = new THREE.CubeTextureLoader()
+      .setPath("textures/skybox/")
+      .load(["px.webp", "nx.webp", "py.webp", "ny.webp", "pz.webp", "nz.webp"]);
+
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath("/draco/");
 
     const loader = new GLTFLoader();
     loader.setDRACOLoader(dracoLoader);
 
+    // ------------------ Hover Setup ------------------
     const hoverGroups = {
       AboutMeGlass: "AboutMe_Red_Bloom",
       ProjectsGlass: "Projects_Red_Bloom",
       GamesGlass: "Games_Red_Bloom",
       MusicGlass: "Music_Red_Bloom",
       ContactGlass: "Contact_Red_Bloom",
+      MainSignGlass1: "MainSign1_Red_Bloom",
+      MainSignGlass2: "MainSign2_Red_Bloom",
+      RamenShopSignGlass: "RamenShopSignText_Red_Bloom",
+      ArcadeSignGlass: "ArcadeSignText_Red_Bloom",
     };
 
     const navItems = {
@@ -84,10 +180,11 @@ export default function Canvas() {
 
     function playHoverAnimation(name, isHovering) {
       const object = raycasterObjects.find((obj) => obj.name === name);
-      if (!object) return;
+      if (!object) {
+        return;
+      }
 
       gsap.killTweensOf(object.scale);
-      gsap.killTweensOf(object.material.color);
 
       if (object.name in navItems) {
         const targetScale = isHovering
@@ -107,20 +204,24 @@ export default function Canvas() {
           duration: 0.5,
           ease: "back.out(1.8)",
         });
+      }
 
-        const targetColor = isHovering ? "#ffffff" : "#ff4444";
+      if (object.name.includes("Bloom")) {
+        if (isHovering) {
+          /*
         if (!object.userData.originalColor) {
           object.userData.originalColor = object.material.color.clone();
         }
-
-        gsap.to(object.material.color, {
-          r: new THREE.Color(targetColor).r,
-          g: new THREE.Color(targetColor).g,
-          b: new THREE.Color(targetColor).b,
-          duration: 0.5,
-        });
+        object.material.color.set(0xff0000);
+        */
+          object.layers.enable(BLOOM_SCENE);
+        } else {
+          object.layers.disable(BLOOM_SCENE);
+        }
       }
     }
+
+    // ------------------ Model Loading ------------------
     loader.load("/models/3dPortfolio.glb", (glb) => {
       glb.scene.traverse((child) => {
         if (!child.isMesh) return;
@@ -188,7 +289,10 @@ export default function Canvas() {
       scene.add(glb.scene);
     });
 
+    // ------------------ Events ------------------
+
     function focusCameraOnObject(object) {
+      // Compute bounding box of the object
       const box = new THREE.Box3().setFromObject(object);
       const center = new THREE.Vector3();
       const size = new THREE.Vector3();
@@ -196,17 +300,20 @@ export default function Canvas() {
       box.getCenter(center);
       box.getSize(size);
 
+      // Calculate the optimal camera distance
       const maxDim = Math.max(size.x, size.y, size.z);
       const fov = camera.fov * (Math.PI / 180);
       let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2));
-      cameraZ *= 1.5;
+      cameraZ *= 1.5; // Add some padding
 
+      // Calculate new camera position relative to the center
       const dir = new THREE.Vector3()
         .subVectors(camera.position, controls.target)
         .normalize();
 
       const newCameraPos = center.clone().add(dir.multiplyScalar(cameraZ));
 
+      // Animate controls.target and camera.position together
       gsap.to(controls.target, {
         x: center.x,
         y: center.y,
@@ -240,6 +347,21 @@ export default function Canvas() {
       if (intersects.length > 0) {
         const clickedObject = intersects[0].object;
         if (hoverGroups[clickedObject.name] in navItems) {
+          /*
+          gsap.to(camera.position, {
+            z: 5.5,
+            x: -1.8,
+            y: 1.5,
+            duration: 2,
+          });
+
+          gsap.to(controls.target, {
+            x: -1.8,
+            y: 1.5,
+            z: 0,
+            duration: 2,
+          }
+          */
           const object = raycasterObjects.find(
             (obj) => obj.name === navItems[hoverGroups[clickedObject.name]],
           );
@@ -254,6 +376,8 @@ export default function Canvas() {
       camera.aspect = sizes.width / sizes.height;
       camera.updateProjectionMatrix();
       renderer.setSize(sizes.width, sizes.height);
+      composer.setSize(sizes.width, sizes.height);
+      finalComposer.setSize(sizes.width, sizes.height);
     };
     window.addEventListener("resize", handleResize);
 
@@ -264,8 +388,8 @@ export default function Canvas() {
     };
     window.addEventListener("mousemove", handleMousemove);
 
+    // ------------------ Animation Loop ------------------
     let animationId;
-
     const animate = () => {
       controls.update();
 
@@ -275,26 +399,20 @@ export default function Canvas() {
       raycaster.setFromCamera(pointer, camera);
       const intersects = raycaster.intersectObjects(raycasterObjects);
 
-      let hoveringInteractive = false;
-
       if (intersects.length > 0) {
         const hovered = intersects[0].object;
-        const group = hoverGroups[hovered.name] || hovered.name;
-
         if (hovered !== currentHoveredObject) {
           if (currentHoveredObject) {
-            const prevGroup =
+            const group =
               hoverGroups[currentHoveredObject.name] ||
               currentHoveredObject.name;
-            playHoverAnimation(prevGroup, false);
+            playHoverAnimation(group, false);
           }
+          const group = hoverGroups[hovered.name] || hovered.name;
           playHoverAnimation(group, true);
           currentHoveredObject = hovered;
         }
-
-        if (navItems[group]) {
-          hoveringInteractive = true;
-        }
+        document.body.style.cursor = "pointer";
       } else {
         if (currentHoveredObject) {
           const group =
@@ -302,15 +420,19 @@ export default function Canvas() {
           playHoverAnimation(group, false);
           currentHoveredObject = null;
         }
+        document.body.style.cursor = "default";
       }
 
-      document.body.style.cursor = hoveringInteractive ? "pointer" : "default";
+      scene.traverse(nonBloomed);
+      composer.render();
+      scene.traverse(restoreMaterial);
+      finalComposer.render();
 
-      renderer.render(scene, camera);
       animationId = requestAnimationFrame(animate);
     };
     animate();
 
+    // ------------------ Cleanup ------------------
     return () => {
       cancelAnimationFrame(animationId);
       window.removeEventListener("resize", handleResize);
