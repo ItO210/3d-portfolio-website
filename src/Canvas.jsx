@@ -23,7 +23,7 @@ export default function Canvas() {
       0.1,
       1000,
     );
-    camera.position.set(16, 1, 16);
+    camera.position.set(16, 1, 20);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(sizes.width, sizes.height);
