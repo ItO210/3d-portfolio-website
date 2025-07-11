@@ -2,41 +2,13 @@ import { useEffect, useRef } from "react";
 import { useThree, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import gsap from "gsap";
+import { navConfig } from "./navConfig.js";
 
-const navConfig = {
-  AboutMe: {
-    glass: "AboutMeGlass",
-    text: "AboutMe_Red_Bloom",
-    target: "PhoneFacePlateScreen_White",
-    cameraOffset: [-1.5, 0, 0],
-  },
-  Projects: {
-    glass: "ProjectsGlass",
-    text: "Projects_Red_Bloom",
-    target: "VendingMachineBodyScreen_White",
-    cameraOffset: [0, 0, 1],
-  },
-  Games: {
-    glass: "GamesGlass",
-    text: "Games_Red_Bloom",
-    target: "ArcadeMachineBodyScreen_White",
-    cameraOffset: [0, 0, -1.2],
-  },
-  Music: {
-    glass: "MusicGlass",
-    text: "Music_Red_Bloom",
-    target: "JackboxBodyScreen_White",
-    cameraOffset: [0, 0, -1.2],
-  },
-  Contact: {
-    glass: "ContactGlass",
-    text: "Contact_Red_Bloom",
-    target: "PhoneFacePlateScreen_White",
-    cameraOffset: [-1.5, 0, 0],
-  },
-};
-
-export default function RaycastHandler({ targets, controlsRef }) {
+export default function RaycastHandler({
+  targets,
+  controlsRef,
+  setScreenMesh,
+}) {
   const raycaster = useRef(new THREE.Raycaster());
   const pointer = useRef(new THREE.Vector2());
   const hovered = useRef(null);
@@ -197,13 +169,16 @@ export default function RaycastHandler({ targets, controlsRef }) {
         if (!navEntry) return;
 
         const target = targets.find((o) => o.name === navEntry.target);
-        if (target) focusCameraOnObject(target, controlsRef, camera, navConfig);
+        if (target) {
+          focusCameraOnObject(target, controlsRef, camera, navConfig);
+          setScreenMesh?.(target);
+        }
       }
     };
 
     window.addEventListener("click", handleClick);
     return () => window.removeEventListener("click", handleClick);
-  }, [targets, camera, controlsRef]);
+  }, [targets, camera, controlsRef, setScreenMesh]);
 
   return null;
 }
