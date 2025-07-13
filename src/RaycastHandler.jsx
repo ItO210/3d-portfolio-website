@@ -8,6 +8,7 @@ export default function RaycastHandler({
   targets,
   controlsRef,
   setScreenMesh,
+  setTarget,
 }) {
   const raycaster = useRef(new THREE.Raycaster());
   const pointer = useRef(new THREE.Vector2());
@@ -172,6 +173,7 @@ export default function RaycastHandler({
         if (target) {
           focusCameraOnObject(target, controlsRef, camera, navConfig);
           setScreenMesh?.(target);
+          setTarget?.(navEntry.text);
         }
       }
     };

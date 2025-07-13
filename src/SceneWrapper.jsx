@@ -4,18 +4,25 @@ import ModelLoader from "./ModelLoader";
 import RaycastHandler from "./RaycastHandler";
 import FanAnimator from "./FanAnimator";
 import AttachHtmlToMesh from "./AttachHtmlToMesh";
-import HeroPage from "./HeroPage";
+import { navConfig } from "./navConfig";
 
 export default function SceneWrapper() {
   const [interactives, setInteractives] = useState([]);
   const [fans, setFans] = useState([]);
   const controlsRef = useRef();
   const [screenMesh, setScreenMesh] = useState(null);
+  const [target, setTarget] = useState(null);
 
   useEffect(() => {
     controlsRef.current.target.set(0, 2.5, 0);
     controlsRef.current.update();
   }, []);
+
+  const activeEntry = screenMesh
+    ? Object.values(navConfig).find((entry) => entry.text === target)
+    : null;
+
+  const PageComponent = activeEntry?.component;
 
   return (
     <>
@@ -25,11 +32,9 @@ export default function SceneWrapper() {
         onFansReady={setFans}
       />
 
-      {screenMesh && (
-        <AttachHtmlToMesh mesh={screenMesh} offset={[0, 0, 0]}>
-          <div className="w-full h-full">
-            <HeroPage />
-          </div>
+      {screenMesh && PageComponent && (
+        <AttachHtmlToMesh mesh={screenMesh}>
+          <PageComponent />
         </AttachHtmlToMesh>
       )}
 
@@ -37,10 +42,11 @@ export default function SceneWrapper() {
         targets={interactives}
         controlsRef={controlsRef}
         setScreenMesh={setScreenMesh}
+        setTarget={setTarget}
       />
 
       <FanAnimator fans={fans} />
-      <OrbitControls ref={controlsRef} zoomSpeed={0.5} enableDamping />
+      <OrbitControls ref={controlsRef} />
     </>
   );
 }

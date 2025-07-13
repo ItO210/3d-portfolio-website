@@ -39,7 +39,7 @@ export default function AttachHtmlToMesh({ mesh, children }) {
         center.z + configEntry.htmlOffset[2],
       ]);
     }
-  }, [mesh]);
+  }, [mesh?.uuid]);
 
   if (!mesh) return null;
 
@@ -54,19 +54,9 @@ export default function AttachHtmlToMesh({ mesh, children }) {
       style={{
         width: `${size.width * 1000}px`,
         height: `${size.height * 1000}px`,
-        pointerEvents: "none",
       }}
     >
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          border: "2px solid red",
-        }}
-      >
+      <div className="w-full h-full flex items-center justify-center">
         {children}
       </div>
     </Html>

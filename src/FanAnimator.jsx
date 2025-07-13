@@ -19,8 +19,8 @@ export default function FanAnimator({ fans }) {
   }, [fans]);
 
   useFrame(() => {
-    zFans.current.forEach((fan) => (fan.rotation.y -= 0.001));
-    yFans.current.forEach((fan) => (fan.rotation.x -= 0.001));
+    zFans.current.forEach((fan) => (fan.rotation.y -= 0.01));
+    yFans.current.forEach((fan) => (fan.rotation.x -= 0.01));
   });
 
   return null;

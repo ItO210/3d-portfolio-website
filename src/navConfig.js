@@ -1,3 +1,9 @@
+import AboutMe from "./AboutMe";
+import ProjectsPage from "./ProjectsPage";
+import GamesPage from "./GamesPage";
+import MusicPage from "./MusicPage";
+import ContactPage from "./ContactPage";
+
 export const navConfig = {
   AboutMe: {
     glass: "AboutMeGlass",
@@ -5,9 +11,9 @@ export const navConfig = {
     target: "PhoneFacePlateScreen_White",
     cameraOffset: [-1.5, 0, 0],
     htmlRotation: [0, -Math.PI / 2, 0],
-    distanceFactor: 0.4,
     htmlSizeAxis: ["z", "x"],
     htmlOffset: [-0.001, 0, 0],
+    component: AboutMe,
   },
   Projects: {
     glass: "ProjectsGlass",
@@ -15,9 +21,9 @@ export const navConfig = {
     target: "VendingMachineBodyScreen_White",
     cameraOffset: [0, 0, 1],
     htmlRotation: [0, 0, 0],
-    distanceFactor: 0.4,
     htmlSizeAxis: ["x", "y"],
     htmlOffset: [0, 0, 0.001],
+    component: ProjectsPage,
   },
   Games: {
     glass: "GamesGlass",
@@ -25,9 +31,9 @@ export const navConfig = {
     target: "ArcadeMachineBodyScreen_White",
     cameraOffset: [0, 0, -1.2],
     htmlRotation: [0, Math.PI, 0],
-    distanceFactor: 0.4,
     htmlSizeAxis: ["x", "y"],
     htmlOffset: [0, 0, -0.001],
+    component: GamesPage,
   },
   Music: {
     glass: "MusicGlass",
@@ -35,9 +41,9 @@ export const navConfig = {
     target: "JackboxBodyScreen_White",
     cameraOffset: [0, 0, -1.2],
     htmlRotation: [0, Math.PI, 0],
-    distanceFactor: 0.4,
     htmlSizeAxis: ["x", "y"],
     htmlOffset: [0, 0, -0.001],
+    component: MusicPage,
   },
   Contact: {
     glass: "ContactGlass",
@@ -45,8 +51,8 @@ export const navConfig = {
     target: "PhoneFacePlateScreen_White",
     cameraOffset: [-1.5, 0, 0],
     htmlRotation: [0, Math.PI / 2, 0],
-    distanceFactor: 0.4,
     htmlSizeAxis: ["z", "x"],
     htmlOffset: [-0.001, 0, 0],
+    component: ContactPage,
   },
 };
