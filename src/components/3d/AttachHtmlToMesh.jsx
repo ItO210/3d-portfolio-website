@@ -1,9 +1,8 @@
 import { Html } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-
 import { useEffect, useState, useRef } from "react";
 import { Vector3 } from "three";
-import { navConfig } from "./navConfig.js";
+import { navConfig } from "../../utils/navConfig.js";
 
 export default function AttachHtmlToMesh({ mesh, children }) {
   const [size, setSize] = useState({ width: 1, height: 1 });

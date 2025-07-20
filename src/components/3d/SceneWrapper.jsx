@@ -4,7 +4,7 @@ import ModelLoader from "./ModelLoader";
 import RaycastHandler from "./RaycastHandler";
 import FanAnimator from "./FanAnimator";
 import AttachHtmlToMesh from "./AttachHtmlToMesh";
-import { navConfig } from "./navConfig";
+import { navConfig } from "../../utils/navConfig.js";
 
 export default function SceneWrapper() {
   const [interactives, setInteractives] = useState([]);

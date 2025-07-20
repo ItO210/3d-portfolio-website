@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { navConfig } from "../../utils/navConfig";
 import gsap from "gsap";
 
 export default function Canvas() {
@@ -23,7 +24,7 @@ export default function Canvas() {
       0.1,
       1000,
     );
-    camera.position.set(16, 1, 20);
+    camera.position.set(16, 1, 16);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(sizes.width, sizes.height);
@@ -66,60 +67,44 @@ export default function Canvas() {
     const loader = new GLTFLoader();
     loader.setDRACOLoader(dracoLoader);
 
-    const hoverGroups = {
-      AboutMeGlass: "AboutMe_Red_Bloom",
-      ProjectsGlass: "Projects_Red_Bloom",
-      GamesGlass: "Games_Red_Bloom",
-      MusicGlass: "Music_Red_Bloom",
-      ContactGlass: "Contact_Red_Bloom",
-    };
-
-    const navItems = {
-      AboutMe_Red_Bloom: "PhoneFacePlateScreen_White",
-      Projects_Red_Bloom: "VendingMachineBodyScreen_White",
-      Games_Red_Bloom: "ArcadeMachineBodyScreen_White",
-      Music_Red_Bloom: "JackboxBodyScreen_White",
-      Contact_Red_Bloom: "PhoneFacePlateScreen_White",
-    };
-
-    function playHoverAnimation(name, isHovering) {
-      const object = raycasterObjects.find((obj) => obj.name === name);
+    function playHoverAnimation(object, isHovering) {
       if (!object) return;
 
       gsap.killTweensOf(object.scale);
       gsap.killTweensOf(object.material.color);
 
-      if (object.name in navItems) {
-        const targetScale = isHovering
-          ? {
-              x: object.userData.initialScale.x * 1.1,
-              y: object.userData.initialScale.y * 1.1,
-              z: object.userData.initialScale.z * 1.1,
-            }
-          : {
-              x: object.userData.initialScale.x,
-              y: object.userData.initialScale.y,
-              z: object.userData.initialScale.z,
-            };
+      const config = Object.values(navConfig).find(
+        (cfg) => cfg.glass === object.name,
+      );
 
-        gsap.to(object.scale, {
-          ...targetScale,
-          duration: 0.5,
-          ease: "back.out(1.8)",
-        });
+      if (!config) return;
 
-        const targetColor = isHovering ? "#ffffff" : "#ff4444";
-        if (!object.userData.originalColor) {
-          object.userData.originalColor = object.material.color.clone();
-        }
+      const text = raycasterObjects.find((obj) => obj.name === config.text);
+      if (!text) return;
 
-        gsap.to(object.material.color, {
-          r: new THREE.Color(targetColor).r,
-          g: new THREE.Color(targetColor).g,
-          b: new THREE.Color(targetColor).b,
-          duration: 0.5,
-        });
+      const { x, y, z } = text.userData.initialScale;
+      const targetScale = isHovering
+        ? { x: x * 1.1, y: y * 1.1, z: z * 1.1 }
+        : { x, y, z };
+
+      gsap.to(text.scale, {
+        ...targetScale,
+        duration: 0.5,
+        ease: "back.out(1.8)",
+      });
+
+      const targetColor = isHovering ? "#ffffff" : "#ff4444";
+      if (!text.userData.originalColor) {
+        text.userData.originalColor = text.material.color.clone();
       }
+
+      const color = new THREE.Color(targetColor);
+      gsap.to(text.material.color, {
+        r: color.r,
+        g: color.g,
+        b: color.b,
+        duration: 0.5,
+      });
     }
     loader.load("/models/3dPortfolio.glb", (glb) => {
       glb.scene.traverse((child) => {
@@ -173,16 +158,12 @@ export default function Canvas() {
           raycasterObjects.push(child);
         }
 
-        if (hoverGroups[child.name] || child.name.includes("Bloom")) {
-          raycasterObjects.push(child);
-          child.userData.initialScale = child.scale.clone();
-        }
-
-        for (const glassName in hoverGroups) {
-          if (hoverGroups[glassName].includes(child.name)) {
+        Object.values(navConfig).forEach(({ glass, text }) => {
+          if (child.name === glass || child.name === text) {
+            raycasterObjects.push(child);
             child.userData.initialScale = child.scale.clone();
           }
-        }
+        });
       });
 
       scene.add(glb.scene);
@@ -201,21 +182,19 @@ export default function Canvas() {
       let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2));
       cameraZ *= 1.5;
 
-      const dir = new THREE.Vector3()
-        .subVectors(camera.position, controls.target)
-        .normalize();
-
-      const newCameraPos = center.clone().add(dir.multiplyScalar(cameraZ));
+      const offsetArray = Object.values(navConfig).find(
+        (config) => config.target === object.name,
+      )?.cameraOffset;
+      const offsetDirection = new THREE.Vector3(...offsetArray);
+      const newCameraPos = center
+        .clone()
+        .add(offsetDirection.multiplyScalar(cameraZ));
 
       gsap.to(controls.target, {
         x: center.x,
         y: center.y,
         z: center.z,
         duration: 2,
-        onUpdate: () => {
-          camera.lookAt(controls.target);
-          controls.update();
-        },
       });
 
       gsap.to(camera.position, {
@@ -224,7 +203,7 @@ export default function Canvas() {
         z: newCameraPos.z,
         duration: 2,
         onUpdate: () => {
-          camera.lookAt(controls.target);
+          camera.lookAt(center);
           controls.update();
         },
       });
@@ -239,11 +218,26 @@ export default function Canvas() {
 
       if (intersects.length > 0) {
         const clickedObject = intersects[0].object;
-        if (hoverGroups[clickedObject.name] in navItems) {
+
+        if (
+          Object.values(navConfig).some(
+            (config) => config.glass === clickedObject.name,
+          )
+        ) {
           const object = raycasterObjects.find(
-            (obj) => obj.name === navItems[hoverGroups[clickedObject.name]],
+            (obj) =>
+              obj.name ===
+              Object.values(navConfig).find(
+                (config) => config.glass === clickedObject.name,
+              )?.target,
           );
           focusCameraOnObject(object);
+        } else if (
+          Object.values(navConfig).some(
+            (config) => config.target === clickedObject.name,
+          )
+        ) {
+          focusCameraOnObject(clickedObject);
         }
       }
     });
@@ -275,36 +269,24 @@ export default function Canvas() {
       raycaster.setFromCamera(pointer, camera);
       const intersects = raycaster.intersectObjects(raycasterObjects);
 
-      let hoveringInteractive = false;
-
       if (intersects.length > 0) {
         const hovered = intersects[0].object;
-        const group = hoverGroups[hovered.name] || hovered.name;
 
         if (hovered !== currentHoveredObject) {
           if (currentHoveredObject) {
-            const prevGroup =
-              hoverGroups[currentHoveredObject.name] ||
-              currentHoveredObject.name;
-            playHoverAnimation(prevGroup, false);
+            playHoverAnimation(currentHoveredObject, false);
           }
-          playHoverAnimation(group, true);
+          playHoverAnimation(hovered, true);
           currentHoveredObject = hovered;
-        }
-
-        if (navItems[group]) {
-          hoveringInteractive = true;
         }
       } else {
         if (currentHoveredObject) {
-          const group =
-            hoverGroups[currentHoveredObject.name] || currentHoveredObject.name;
-          playHoverAnimation(group, false);
+          playHoverAnimation(currentHoveredObject, false);
           currentHoveredObject = null;
         }
       }
 
-      document.body.style.cursor = hoveringInteractive ? "pointer" : "default";
+      //      document.body.style.cursor = hoveringInteractive ? "pointer" : "default";
 
       renderer.render(scene, camera);
       animationId = requestAnimationFrame(animate);

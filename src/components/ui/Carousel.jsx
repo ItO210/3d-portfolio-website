@@ -11,7 +11,6 @@ const Carousel = ({ items }) => {
   // Calculate visible items around currentIndex
   const getItem = (index) => items[(index + totalItems) % totalItems];
 
-  // When not transitioning, offset is 0. When transitioning, offset is -1 or +1
   const offset = transitioning ? (direction === "Next" ? -1 : 1) : 0;
 
   const visibleItems = [
@@ -50,7 +49,6 @@ const Carousel = ({ items }) => {
         {visibleItems.map((item, index) => {
           const baseOffset = (index - 2 + offset) * 100;
 
-          // Scale logic: center card bigger, adjacent cards medium, others smaller
           let scale = 0.9;
           if (!transitioning) {
             scale = index === 2 ? 1 : 0.9;

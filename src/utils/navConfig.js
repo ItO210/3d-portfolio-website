@@ -1,8 +1,8 @@
-import AboutMe from "./AboutMe";
-import ProjectsPage from "./ProjectsPage";
-import GamesPage from "./GamesPage";
-import MusicPage from "./MusicPage";
-import ContactPage from "./ContactPage";
+import AboutMe from "../components/pages/AboutMe";
+import ProjectsPage from "../components/pages/ProjectsPage";
+import GamesPage from "../components/pages/GamesPage";
+import MusicPage from "../components/pages/MusicPage";
+import ContactPage from "../components/pages/ContactPage";
 
 export const navConfig = {
   AboutMe: {

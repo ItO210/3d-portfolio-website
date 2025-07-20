@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { projects } from "./projectsData";
+import { projects } from "../../utils/projectsData";
 import { BsGithub } from "react-icons/bs";
 
 const ITEMS_PER_PAGE = 9;

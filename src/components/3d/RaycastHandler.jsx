@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { useThree, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import gsap from "gsap";
-import { navConfig } from "./navConfig.js";
+import { navConfig } from "../../utils/navConfig.js";
 
 export default function RaycastHandler({
   targets,

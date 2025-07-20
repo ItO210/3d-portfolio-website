@@ -1,6 +1,6 @@
 // App.jsx or App.tsx
 import { Canvas } from "@react-three/fiber";
-import SceneWrapper from "./SceneWrapper";
+import SceneWrapper from "./components/3d/SceneWrapper";
 
 export default function App() {
   return (

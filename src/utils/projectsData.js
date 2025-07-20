@@ -1,5 +1,3 @@
-// src/projectsData.js
-
 export const projects = [
   {
     title: "HealthSync",
