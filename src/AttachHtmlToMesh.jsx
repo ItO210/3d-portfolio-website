@@ -1,19 +1,30 @@
-// components/AttachHtmlToMesh.jsx
 import { Html } from "@react-three/drei";
-import { useEffect, useState } from "react";
+import { useFrame } from "@react-three/fiber";
+
+import { useEffect, useState, useRef } from "react";
 import { Vector3 } from "three";
 import { navConfig } from "./navConfig.js";
 
 export default function AttachHtmlToMesh({ mesh, children }) {
   const [size, setSize] = useState({ width: 1, height: 1 });
   const [position, setPosition] = useState([0, 0, 0]);
+  const hasCalculated = useRef(false);
+  const lastMeshUUID = useRef(null);
 
   const configEntry = Object.values(navConfig).find(
-    (entry) => entry.target === mesh.name,
+    (entry) => entry.target === mesh?.name,
   );
 
   useEffect(() => {
-    if (!mesh) return;
+    // Reset when the mesh changes
+    if (mesh?.uuid !== lastMeshUUID.current) {
+      hasCalculated.current = false;
+      lastMeshUUID.current = mesh?.uuid;
+    }
+  }, [mesh]);
+
+  useFrame(() => {
+    if (!mesh || !configEntry || hasCalculated.current) return;
 
     mesh.geometry?.computeBoundingBox();
     const box = mesh.geometry?.boundingBox;
@@ -38,10 +49,12 @@ export default function AttachHtmlToMesh({ mesh, children }) {
         center.y + configEntry.htmlOffset[1],
         center.z + configEntry.htmlOffset[2],
       ]);
-    }
-  }, [mesh?.uuid]);
 
-  if (!mesh) return null;
+      hasCalculated.current = true;
+    }
+  });
+
+  if (!mesh || !configEntry) return null;
 
   return (
     <Html

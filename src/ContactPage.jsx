@@ -67,7 +67,7 @@ export default function ContactPage() {
           <h2 className="text-3xl w-full text-center font-mono">
             Or send me a message:
           </h2>
-          <div className="w-full h-full">
+          <div className="w-full h-full px-4">
             <label htmlFor="name" className="font-mono">
               Name
             </label>
@@ -78,7 +78,7 @@ export default function ContactPage() {
               className="p-2 rounded-2xl shadow-inner shadow-neutral-500 w-full font-mono"
             />
           </div>
-          <div className="w-full h-full">
+          <div className="w-full h-full px-4">
             <label htmlFor="email" className="font-mono">
               Email
             </label>
@@ -90,7 +90,7 @@ export default function ContactPage() {
               className="p-2 rounded-2xl shadow-inner shadow-neutral-500 w-full font-mono"
             />
           </div>
-          <div className="w-full h-full">
+          <div className="w-full h-full px-4">
             <label htmlFor="message" className="font-mono">
               Message
             </label>
@@ -101,7 +101,7 @@ export default function ContactPage() {
               className="p-2 rounded-2xl shadow-inner shadow-neutral-500 w-full font-mono"
             />
           </div>
-          <div className="w-full h-full">
+          <div className="w-full h-full px-4">
             <button
               type="submit"
               className="rounded-2xl shadow-md shadow-neutral-500 p-2 font-mono"
