@@ -2,7 +2,10 @@ export const projects = [
   {
     title: "HealthSync",
     can: "/images/a.png",
-    images: ["/images/a.png"],
+    images: [
+      { src: "/images/a.png", alt: "First image" },
+      { src: "/images/profile.jpeg", alt: "Second image" },
+    ],
     description:
       "HealthSync is a hospital equipment ticket system where staff report issues via web, and technicians and admins handle tickets through an Android app—managing repairs, uploading evidence, tracking performance, and managing accounts.",
     features: [
@@ -18,7 +21,10 @@ export const projects = [
   {
     title: "AIRacingLine",
     can: "/images/a.png",
-    images: ["/images/a.png"],
+    images: [
+      { src: "/images/a.png", alt: "First image" },
+      { src: "/images/profile.jpeg", alt: "Second image" },
+    ],
     description:
       "AIRacingLine is an AI-powered system for Unity that generates dynamic racing lines and provides real-time speed feedback. An ML-Agents-trained agent drives the optimal path, which is recorded and visualized with color changes (green, yellow, red) to guide players through acceleration and braking zones.",
     features: [
@@ -32,7 +38,10 @@ export const projects = [
   {
     title: "CodeCuisine",
     can: "/images/a.png",
-    images: ["/images/a.png"],
+    images: [
+      { src: "/images/a.png", alt: "First image" },
+      { src: "/images/profile.jpeg", alt: "Second image" },
+    ],
 
     description:
       "CodeCuisine is an educational game that teaches kids programming by guiding them through a hamburger-making challenge. Players use a drag-and-drop interface with logic blocks like loops and actions to build recipes. The system checks their logic and gives instant feedback.",

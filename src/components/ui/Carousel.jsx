@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 
-const Carousel = ({ items }) => {
+const Carousel = ({ items, autoPlay = true, interval = 3000 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [transitioning, setTransitioning] = useState(false);
   const [direction, setDirection] = useState(null);
@@ -8,7 +9,6 @@ const Carousel = ({ items }) => {
   const totalItems = items.length;
   const numCards = 5;
 
-  // Calculate visible items around currentIndex
   const getItem = (index) => items[(index + totalItems) % totalItems];
 
   const offset = transitioning ? (direction === "Next" ? -1 : 1) : 0;
@@ -21,7 +21,6 @@ const Carousel = ({ items }) => {
     getItem(currentIndex + 2),
   ];
 
-  // Fill to 5 if needed
   while (visibleItems.length < numCards) {
     visibleItems.push(...items);
   }
@@ -42,6 +41,17 @@ const Carousel = ({ items }) => {
       );
     }, 500);
   };
+
+  // Auto-play logic
+  useEffect(() => {
+    if (!autoPlay) return;
+
+    const timer = setInterval(() => {
+      handleTransition("Next");
+    }, interval);
+
+    return () => clearInterval(timer); // Cleanup
+  }, [autoPlay, interval, transitioning]); // Watch transitioning to prevent overlap
 
   return (
     <div className="relative w-full h-full overflow-hidden p-2 flex items-center justify-center">
@@ -77,15 +87,15 @@ const Carousel = ({ items }) => {
 
       <button
         onClick={() => handleTransition("Prev")}
-        className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white px-3 py-1 rounded"
+        className="absolute h-full left-2 top-1/2 -translate-y-1/2  text-neutral-800 px-3 py-1 rounded"
       >
-        Prev
+        <MdKeyboardArrowLeft size={80} />
       </button>
       <button
         onClick={() => handleTransition("Next")}
-        className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white px-3 py-1 rounded"
+        className="absolute h-full right-2 top-1/2 -translate-y-1/2 text-neutral-800 px-3 py-1 rounded"
       >
-        Next
+        <MdKeyboardArrowRight size={80} />
       </button>
     </div>
   );

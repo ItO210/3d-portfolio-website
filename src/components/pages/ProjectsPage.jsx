@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { projects } from "../../utils/projectsData";
 import { BsGithub } from "react-icons/bs";
+import Carousel from "../ui/Carousel.jsx";
+import { createImageCards } from "../../utils/cardFactory.jsx";
 
 const ITEMS_PER_PAGE = 9;
 
@@ -21,14 +23,7 @@ export default function ProjectsPage() {
     return (
       <div className="w-full h-full text-3xl font-mono bg-neutral-200 p-8 flex flex-col items-center justify-between gap-8">
         <div className="flex items-center justify-center overflow-hidden rounded-2xl border shadow-lg border-white shadow-neutral-500 w-full h-full">
-          {selectedProject.images.map((image, index) => (
-            <img
-              key={index}
-              src={image}
-              alt={selectedProject.title}
-              className="w-full h-full object-contain "
-            />
-          ))}
+          <Carousel items={createImageCards(selectedProject.images)} />
         </div>
         <div className="text-center w-full flex flex-col gap-2">
           <h1 className="text-4xl font-bold ">{selectedProject.title}</h1>
