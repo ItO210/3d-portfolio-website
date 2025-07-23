@@ -9,6 +9,7 @@ export default function RaycastHandler({
   controlsRef,
   setScreenMesh,
   setTarget,
+  screenMesh,
 }) {
   const raycaster = useRef(new THREE.Raycaster());
   const pointer = useRef(new THREE.Vector2());
@@ -151,11 +152,26 @@ export default function RaycastHandler({
   });
 
   useEffect(() => {
+    if (!screenMesh) return;
+
+    const navEntry = Object.values(navConfig).find(
+      (entry) => entry.target === screenMesh.name,
+    );
+
+    if (!navEntry) return;
+
+    focusCameraOnObject(screenMesh, controlsRef, camera, navConfig);
+    setTarget(navEntry.text);
+  }, [screenMesh]);
+
+  useEffect(() => {
     const handleClick = () => {
       raycaster.current.setFromCamera(pointer.current, camera);
 
       const hoverTargets = targets.filter((t) =>
-        Object.values(navConfig).some((conf) => conf.glass === t.name),
+        Object.values(navConfig).some(
+          (conf) => conf.glass === t.name || conf.target === t.name,
+        ),
       );
 
       const intersects = raycaster.current.intersectObjects(hoverTargets);
@@ -163,23 +179,35 @@ export default function RaycastHandler({
       if (intersects.length > 0) {
         const clicked = intersects[0].object;
 
-        const navEntry = Object.values(navConfig).find(
-          (conf) => conf.glass === clicked.name,
-        );
+        const navEntry = Object.values(navConfig).find((conf) => {
+          if (clicked.name.includes("Screen")) {
+            return conf.target === clicked.name;
+          } else {
+            return conf.glass === clicked.name;
+          }
+        });
 
         if (!navEntry) return;
 
         const target = targets.find((o) => o.name === navEntry.target);
-        if (target) {
-          focusCameraOnObject(target, controlsRef, camera, navConfig);
+
+        if (target && target !== screenMesh) {
+          controlsRef.current.enabled = false; // disable orbit controls
+
           setScreenMesh?.(target);
-          setTarget?.(navEntry.text);
         }
       }
     };
+    const handlePointerUp = () => {
+      controlsRef.current.enabled = true; // always re-enable
+    };
 
-    window.addEventListener("click", handleClick);
-    return () => window.removeEventListener("click", handleClick);
+    window.addEventListener("pointerdown", handleClick);
+    window.addEventListener("pointerup", handlePointerUp);
+    return () => {
+      window.removeEventListener("pointerdown", handleClick);
+      window.removeEventListener("pointerup", handlePointerUp);
+    };
   }, [targets, camera, controlsRef, setScreenMesh]);
 
   return null;

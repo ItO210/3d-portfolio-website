@@ -43,6 +43,7 @@ export default function SceneWrapper() {
         controlsRef={controlsRef}
         setScreenMesh={setScreenMesh}
         setTarget={setTarget}
+        screenMesh={screenMesh}
       />
 
       <FanAnimator fans={fans} />
