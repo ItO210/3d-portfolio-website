@@ -16,7 +16,7 @@ export default function ContactPage() {
   }, [state.succeeded]);
 
   return (
-    <div className="w-full h-full text-2xl bg-neutral-200 p-4 flex flex-col items-center justify-center border gap-6">
+    <div className="w-full h-full text-2xl bg-neutral-200 p-4 flex flex-col items-center justify-center border gap-6 font-mono">
       <div className="h-2/5 w-full text-center items-center justify-center flex flex-col gap-4">
         <h2 className="w-full text-center text-3xl font-mono">
           You can find me on:

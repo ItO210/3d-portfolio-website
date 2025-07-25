@@ -42,25 +42,41 @@ export default function AudioSlider({ duration = 1, progress = 0, onChange }) {
     };
   }, [isDragging]);
 
-  return (
-    <div
-      ref={trackRef}
-      onClick={handleSeek}
-      className="relative w-full h-3 bg-neutral-300 rounded cursor-pointer"
-    >
-      {/* Fill line */}
-      <div
-        className="absolute h-full bg-red-500 rounded"
-        style={{ width: `${progressPercent}%` }}
-      />
+  const formatTime = (timeInSeconds) => {
+    if (isNaN(timeInSeconds)) return "0:00";
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = Math.floor(timeInSeconds % 60)
+      .toString()
+      .padStart(2, "0");
+    return `${minutes}:${seconds}`;
+  };
 
-      {/* Thumb */}
+  return (
+    <div className="w-full">
       <div
         onMouseDown={() => setIsDragging(true)}
         onTouchStart={() => setIsDragging(true)}
-        className="absolute top-1/2 w-4 h-4 bg-red-600 rounded-full -translate-y-1/2 -translate-x-1/2 d"
-        style={{ left: `${progressPercent}%` }}
-      />
+        ref={trackRef}
+        onClick={handleSeek}
+        className="relative w-full h-2 bg-neutral-300 rounded cursor-pointer flex"
+      >
+        {/* Fill line */}
+        <div
+          className="absolute h-full bg-red-500 rounded any-pointer-none"
+          style={{ width: `${progressPercent}%` }}
+        />
+
+        {/* Thumb */}
+        <div
+          className="absolute top-1/2 w-4 h-4 bg-red-600 rounded-full -translate-y-1/2 -translate-x-1/2 "
+          style={{ left: `${progressPercent}%` }}
+        />
+      </div>
+
+      <div className="w-full pt-4 text-2xl text-neutral-900 flex justify-between">
+        <p>{formatTime(progress)}</p>
+        <p>{formatTime(duration)}</p>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 export default function AboutMe() {
   return (
-    <div className="w-full h-full text-2xl bg-neutral-200 p-4 flex flex-col items-center justify-center border gap-4">
+    <div className="w-full h-full text-2xl bg-neutral-200 p-4 flex flex-col items-center justify-center border gap-4 font-mono">
       <img
         src="/images/profile.jpeg"
         className="object-cover rounded-4xl shadow-xl shadow-neutral-500 h-1/3 mt-6"

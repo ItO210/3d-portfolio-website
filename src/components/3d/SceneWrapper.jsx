@@ -14,8 +14,11 @@ export default function SceneWrapper() {
   const [target, setTarget] = useState(null);
 
   useEffect(() => {
-    controlsRef.current.target.set(0, 2.5, 0);
+    controlsRef.current.target.set(0, 0, 0);
     controlsRef.current.update();
+    controlsRef.current.enablePan = false;
+    controlsRef.current.minPolarAngle = 0;
+    controlsRef.current.maxPolarAngle = Math.PI / 2;
   }, []);
 
   const activeEntry = screenMesh

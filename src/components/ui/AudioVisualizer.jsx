@@ -49,7 +49,7 @@ const AudioVisualizer = ({ audioRef }) => {
       for (let i = minBin; i <= maxBin; i++) {
         const barHeight = dataArray[i];
         ctx.fillStyle = `rgb(${barHeight},0,0)`;
-        ctx.fillRect(x, canvas.height - barHeight * 0.5, barWidth, barHeight);
+        ctx.fillRect(x, canvas.height - barHeight * 0.4, barWidth, barHeight);
         x += barWidth;
       }
     };
