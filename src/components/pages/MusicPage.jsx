@@ -2,9 +2,7 @@ import { useRef, useState } from "react";
 import AudioVisualizer from "../ui/AudioVisualizer";
 import AudioControls from "../ui/AudioControls";
 
-export default function MusicPage() {
-  const audioRef = useRef(null);
-
+export default function MusicPage({ audioRef }) {
   const tracks = [
     { title: "Track 1", src: "/audios/audio1.mp3", image: "/images/a.png" },
     { title: "Track 2", src: "/audios/audio2.mp3", image: "/images/a.png" },

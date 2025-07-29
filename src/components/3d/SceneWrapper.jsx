@@ -6,7 +6,7 @@ import FanAnimator from "./FanAnimator";
 import AttachHtmlToMesh from "./AttachHtmlToMesh";
 import { navConfig } from "../../utils/navConfig.js";
 
-export default function SceneWrapper() {
+export default function SceneWrapper({ setLoaded, audioRef }) {
   const [interactives, setInteractives] = useState([]);
   const [fans, setFans] = useState([]);
   const controlsRef = useRef();
@@ -14,7 +14,7 @@ export default function SceneWrapper() {
   const [target, setTarget] = useState(null);
 
   useEffect(() => {
-    controlsRef.current.target.set(0, 0, 0);
+    controlsRef.current.target.set(0, 2, 0);
     controlsRef.current.update();
     controlsRef.current.enablePan = false;
     controlsRef.current.minPolarAngle = 0;
@@ -33,11 +33,12 @@ export default function SceneWrapper() {
         url="/models/3dPortfolio.glb"
         onMeshReady={setInteractives}
         onFansReady={setFans}
+        setLoaded={setLoaded}
       />
 
       {screenMesh && PageComponent && (
         <AttachHtmlToMesh mesh={screenMesh}>
-          <PageComponent />
+          <PageComponent audioRef={audioRef} />
         </AttachHtmlToMesh>
       )}
 
