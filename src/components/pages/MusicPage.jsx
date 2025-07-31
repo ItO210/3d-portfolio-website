@@ -12,15 +12,30 @@ export default function MusicPage({ audioRef }) {
   const currentTrack = tracks[currentTrackIndex];
 
   const handleNext = () => {
-    setCurrentTrackIndex((prevIndex) =>
-      prevIndex === tracks.length - 1 ? 0 : prevIndex + 1,
-    );
+    setCurrentTrackIndex((prevIndex) => {
+      const newIndex = prevIndex === tracks.length - 1 ? 0 : prevIndex + 1;
+
+      // change the audio src via ref
+      if (audioRef.current) {
+        audioRef.current.src = tracks[newIndex].src;
+        audioRef.current.play();
+      }
+
+      return newIndex;
+    });
   };
 
   const handlePrev = () => {
-    setCurrentTrackIndex((prevIndex) =>
-      prevIndex === 0 ? tracks.length - 1 : prevIndex - 1,
-    );
+    setCurrentTrackIndex((prevIndex) => {
+      const newIndex = prevIndex === 0 ? tracks.length - 1 : prevIndex - 1;
+
+      if (audioRef.current) {
+        audioRef.current.src = tracks[newIndex].src;
+        audioRef.current.play();
+      }
+
+      return newIndex;
+    });
   };
 
   return (
@@ -29,12 +44,6 @@ export default function MusicPage({ audioRef }) {
       <div className="absolute w-full h-full ">
         <AudioVisualizer audioRef={audioRef} />
       </div>
-
-      {/* Audio element - hidden */}
-      <audio ref={audioRef} src={currentTrack.src} className="hidden" />
-
-      {/* Audio Controls - top layer */}
-
       <div className="absolute w-full h-full flex flex-col items-center justify-center p-6 bg-neutral-200/60 backdrop-blur-xs">
         <img
           src={currentTrack.image}

@@ -6,19 +6,36 @@ export default function Loading({ loaded, setShowLoading }) {
   const [timeString, setTimeString] = useState("");
   const noiseRef = useRef(null);
   const linesRef = useRef(null);
-  const vhsRef = useRef(null);
+  const titleRef = useRef(null);
   const timeRef = useRef(null);
   const counterRef = useRef(null);
   const centerRef = useRef(null);
   const dotsRef = useRef(null);
   const enterRef = useRef(null);
-
+  const [exiting, setExiting] = useState(false);
+  const containerRef = useRef(null);
   const [hovered, setHovered] = useState(false);
   const engRef = useRef(null);
   const spaRef = useRef(null);
   const jpRef = useRef(null);
 
   const pad = (val) => (val < 10 ? "0" + val : val);
+
+  const handleExit = () => {
+    // Start the exit animation
+    setExiting(true);
+
+    // Example: fade out and scale down
+    gsap.to(containerRef.current, {
+      opacity: 0,
+      scale: 1.5,
+      duration: 1.0,
+      ease: "power2.inOut",
+      onComplete: () => {
+        setShowLoading(false); // Now unmount
+      },
+    });
+  };
 
   // Update counter every second
   useEffect(() => {
@@ -79,7 +96,7 @@ export default function Loading({ loaded, setShowLoading }) {
       ease: "linear",
     });
 
-    gsap.to(vhsRef.current, {
+    gsap.to(titleRef.current, {
       keyframes: textShadows.map((shadow) => ({
         textShadow: shadow,
         duration: 0.25,
@@ -88,6 +105,29 @@ export default function Loading({ loaded, setShowLoading }) {
       yoyo: true,
       ease: "steps(9)",
     });
+
+    const text = "3D Portfolio";
+    gsap.to(
+      { i: 0 },
+      {
+        i: text.length * 2,
+        duration: 2,
+        repeat: -1,
+        ease: "none",
+        onUpdate: function () {
+          const val = Math.floor(this.targets()[0].i);
+
+          if (val <= text.length) {
+            titleRef.current.textContent = text.slice(0, val);
+          } else {
+            const eraseCount = val - text.length;
+            const visible = text.slice(eraseCount);
+            const padding = " ".repeat(eraseCount); // keeps width
+            titleRef.current.textContent = padding + visible;
+          }
+        },
+      },
+    );
 
     gsap.to([timeRef.current, counterRef.current], {
       keyframes: textShadows.map((shadow) => ({
@@ -188,7 +228,10 @@ export default function Loading({ loaded, setShowLoading }) {
     }
   }, [hovered]);
   return (
-    <div className="w-full h-full bg-neutral-800 text-white pointer-events-auto select-none font-mono ">
+    <div
+      ref={containerRef}
+      className="absolute w-full h-full bg-neutral-800 text-white pointer-events-auto select-none font-mono "
+    >
       {/* Scanlines */}
       <div
         ref={linesRef}
@@ -203,8 +246,8 @@ export default function Loading({ loaded, setShowLoading }) {
       {/* Main content */}
       <div className="h-full w-full p-8 flex flex-col justify-between ">
         {/* Top bar */}
-        <div className="flex justify-between text-4xl">
-          <div ref={vhsRef}>VHS</div>
+        <div className="flex whitespace-pre justify-between text-4xl">
+          <div ref={titleRef}>3D Portfolio</div>
           <div ref={timeRef}>{timeString}</div>
         </div>
         <div
@@ -217,7 +260,7 @@ export default function Loading({ loaded, setShowLoading }) {
               onMouseEnter={() => setHovered(true)}
               onMouseLeave={() => setHovered(false)}
               className="relative bg-transparent w-70 h-60 cursor-pointer text-white text-5xl "
-              onClick={() => setShowLoading(false)}
+              onClick={handleExit}
             >
               <span
                 ref={jpRef}

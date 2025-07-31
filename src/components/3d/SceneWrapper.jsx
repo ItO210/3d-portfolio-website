@@ -6,7 +6,7 @@ import FanAnimator from "./FanAnimator";
 import AttachHtmlToMesh from "./AttachHtmlToMesh";
 import { navConfig } from "../../utils/navConfig.js";
 
-export default function SceneWrapper({ setLoaded, audioRef }) {
+export default function SceneWrapper({ audioRef, setLoaded, showLoading }) {
   const [interactives, setInteractives] = useState([]);
   const [fans, setFans] = useState([]);
   const controlsRef = useRef();
@@ -42,13 +42,16 @@ export default function SceneWrapper({ setLoaded, audioRef }) {
         </AttachHtmlToMesh>
       )}
 
-      <RaycastHandler
-        targets={interactives}
-        controlsRef={controlsRef}
-        setScreenMesh={setScreenMesh}
-        setTarget={setTarget}
-        screenMesh={screenMesh}
-      />
+      {!showLoading && (
+        <RaycastHandler
+          targets={interactives}
+          controlsRef={controlsRef}
+          setScreenMesh={setScreenMesh}
+          setTarget={setTarget}
+          screenMesh={screenMesh}
+          currentTarget={target}
+        />
+      )}
 
       <FanAnimator fans={fans} />
       <OrbitControls ref={controlsRef} />

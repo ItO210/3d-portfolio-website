@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { getAudioGraph } from "../../utils/audioGraph.js"; // if in separate file
 
 const AudioVisualizer = ({ audioRef }) => {
   const canvasRef = useRef(null);
@@ -6,14 +7,8 @@ const AudioVisualizer = ({ audioRef }) => {
   useEffect(() => {
     if (!audioRef.current) return;
 
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const analyser = audioCtx.createAnalyser();
+    const { audioCtx, analyser } = getAudioGraph(audioRef.current);
 
-    const source = audioCtx.createMediaElementSource(audioRef.current);
-    source.connect(analyser);
-    analyser.connect(audioCtx.destination);
-
-    analyser.fftSize = 256;
     const bufferLength = analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
 
@@ -28,6 +23,7 @@ const AudioVisualizer = ({ audioRef }) => {
 
     const minBin = Math.floor(minFreq / binSize);
     const maxBin = Math.min(bufferLength - 1, Math.ceil(maxFreq / binSize));
+
     let lastDrawTime = 0;
     const fpsInterval = 1000 / 30;
 
@@ -56,10 +52,8 @@ const AudioVisualizer = ({ audioRef }) => {
 
     draw();
 
-    return () => {
-      analyser.disconnect();
-      source.disconnect();
-    };
+    // Important: do NOT disconnect source/analyser here
+    // Just stop drawing when unmounted
   }, [audioRef]);
 
   return <canvas ref={canvasRef} className="w-full h-full flex" />;
