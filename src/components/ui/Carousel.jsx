@@ -72,7 +72,7 @@ const Carousel = ({ items, autoPlay = true, interval = 3000 }) => {
 
           return (
             <div
-              key={index}
+              key={item.key}
               className="absolute top-0 left-0 w-full h-full flex items-center justify-center rounded-3xl"
               style={{
                 transform: `translateX(${baseOffset}%) scale(${scale})`,

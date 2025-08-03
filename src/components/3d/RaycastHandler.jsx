@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import { useThree, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import gsap from "gsap";
@@ -17,6 +17,7 @@ export default function RaycastHandler({
   const hovered = useRef(null);
   const hoverTargets = useRef([]);
   const { camera } = useThree();
+  const [animating, setAnimating] = useState(false);
 
   // --- helpers ---
   const findNavEntryBy = useCallback(
@@ -69,12 +70,15 @@ export default function RaycastHandler({
         .clone()
         .add(offsetDirection.multiplyScalar(cameraZ));
 
+      gsap.killTweensOf([controlsRef.current.target, camera.position]);
+
       gsap.to(controlsRef.current.target, {
         x: center.x,
         y: center.y,
         z: center.z,
         duration: 2,
         ease: "power2.out",
+        overwrite: "auto",
       });
 
       gsap.to(camera.position, {
@@ -83,9 +87,16 @@ export default function RaycastHandler({
         z: newCameraPos.z,
         duration: 2,
         ease: "power2.out",
+        overwrite: "auto",
         onUpdate: () => {
           camera.lookAt(controlsRef.current.target);
           controlsRef.current.update();
+        },
+        onComplete: () => {
+          // Re-enable controls when animation finishes
+          controlsRef.current.enabled = true;
+          controlsRef.current.enableZoom = true;
+          setAnimating(false);
         },
       });
     },
@@ -174,7 +185,6 @@ export default function RaycastHandler({
       if (clicked.name.includes("Screen")) {
         if (clicked === screenMesh) {
           controlsRef.current.enabled = false;
-        } else {
         }
 
         const navEntry = findNavEntryBy("target", clicked.name);
@@ -184,6 +194,9 @@ export default function RaycastHandler({
         if (screenTarget && screenTarget !== screenMesh) {
           setScreenMesh?.(screenTarget);
           setTarget(navEntry.text);
+          controlsRef.current.enabled = false;
+          controlsRef.current.enableZoom = false;
+          setAnimating(true);
         }
       } else {
         const navEntry = findNavEntryBy("glass", clicked.name);
@@ -192,11 +205,15 @@ export default function RaycastHandler({
         if (screenTarget) {
           setScreenMesh?.(screenTarget);
           setTarget(navEntry.text);
+          controlsRef.current.enabled = false;
+          controlsRef.current.enableZoom = false;
+          setAnimating(true);
         }
       }
     };
 
     const handlePointerUp = () => {
+      if (animating) return;
       controlsRef.current.enabled = true;
     };
 
@@ -215,6 +232,7 @@ export default function RaycastHandler({
     setTarget,
     findNavEntryBy,
     findTargetByName,
+    animating,
   ]);
 
   return null;

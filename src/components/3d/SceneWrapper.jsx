@@ -38,7 +38,7 @@ export default function SceneWrapper({ audioRef, setLoaded, showLoading }) {
 
       {screenMesh && PageComponent && (
         <AttachHtmlToMesh mesh={screenMesh}>
-          <PageComponent audioRef={audioRef} />
+          <PageComponent audioRef={audioRef} setTarget={setTarget} />
         </AttachHtmlToMesh>
       )}
 

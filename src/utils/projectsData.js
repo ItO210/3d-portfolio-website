@@ -5,6 +5,9 @@ export const projects = [
     images: [
       { src: "/images/a.png", alt: "First image" },
       { src: "/images/profile.jpeg", alt: "Second image" },
+      { src: "/images/a.png", alt: "Third image" },
+      { src: "/images/profile.jpeg", alt: "Fourth image" },
+      { src: "/images/a.png", alt: "Fifth image" },
     ],
     description:
       "HealthSync is a hospital equipment ticket system where staff report issues via web, and technicians and admins handle tickets through an Android app—managing repairs, uploading evidence, tracking performance, and managing accounts.",

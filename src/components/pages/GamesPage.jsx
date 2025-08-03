@@ -1,9 +1,10 @@
 export default function GamesPage() {
-  const cards = createImageCards(images);
-  //const cards = createCards(5);
   return (
-    <div className="w-full h-full text-2xl bg-neutral-100 font-mono">
-      <Carousel items={cards} />;
+    <div className="relative w-full h-full bg-neutral-200">
+      <div className="absolute bg-grid w-full h-full "></div>
+      <div className="w-full h-full flex items-center justify-center font-mono">
+        <h1 className="text-neutral-600 text-5xl">Coming Soon</h1>
+      </div>
     </div>
   );
 }

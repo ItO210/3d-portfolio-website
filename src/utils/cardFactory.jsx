@@ -13,16 +13,38 @@ export const createCards = (count) => {
 };
 
 export const createImageCards = (images) => {
-  return images.map((image, index) => (
-    <div
-      key={index}
-      className="w-full h-full flex items-center justify-center rounded-3xl overflow-hidden"
-    >
-      <img
-        src={image.src}
-        alt={image.alt || `Image ${index + 1}`}
-        className="object-cover w-full h-full"
-      />
-    </div>
-  ));
+  const cards = [];
+
+  if (images.length === 0) return cards;
+
+  // Decide totalCards based on conditions
+  let totalCards;
+  if (images.length >= 5) {
+    totalCards = images.length;
+  } else if (images.length < 5 && images.length % 2 === 0) {
+    // Less than 5 and even number of images: return 6 cards
+    totalCards = 6;
+  } else {
+    // Less than 5 and odd number of images: return 5 cards
+    totalCards = 5;
+  }
+
+  for (let i = 0; i < totalCards; i++) {
+    const image = images[i % images.length];
+
+    cards.push(
+      <div
+        key={`image-${i}`}
+        className="w-full h-full flex items-center justify-center rounded-3xl overflow-hidden"
+      >
+        <img
+          src={image.src}
+          alt={image.alt || `Image ${i + 1}`}
+          className="object-cover w-full h-full"
+        />
+      </div>,
+    );
+  }
+
+  return cards;
 };

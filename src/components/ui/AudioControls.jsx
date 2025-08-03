@@ -13,7 +13,7 @@ export default function AudioControls({
   onNext,
   onPrev,
 }) {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
 
@@ -21,28 +21,33 @@ export default function AudioControls({
     const audio = audioRef.current;
     if (!audio) return;
 
-    const updateProgress = () => setProgress(audio.currentTime);
-    const updateDuration = () => setDuration(audio.duration);
+    const updateProgress = () => setProgress(audio.currentTime || 0);
+    const updateDuration = () => setDuration(audio.duration || 0);
     const handleEnded = () => onNext();
 
     audio.addEventListener("timeupdate", updateProgress);
     audio.addEventListener("loadedmetadata", updateDuration);
     audio.addEventListener("ended", handleEnded);
 
+    // If metadata is already loaded (first load case)
+    if (audio.readyState >= 1) {
+      updateDuration();
+    }
+
     return () => {
       audio.removeEventListener("timeupdate", updateProgress);
       audio.removeEventListener("loadedmetadata", updateDuration);
       audio.removeEventListener("ended", handleEnded);
     };
-  }, [audioRef]);
+  }, [audioRef, onNext]);
 
   useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
     setIsPlaying(true);
     setProgress(0);
-    setDuration(0);
-    audioRef.current.play();
-  }, [currentTrackIndex]);
-
+    audio.play();
+  }, [currentTrackIndex, audioRef]);
   const togglePlay = () => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -58,6 +63,7 @@ export default function AudioControls({
 
   const handleSeek = (value) => {
     if (audioRef.current) {
+      console.log("audio seek", audioRef.current.currentTime, value);
       audioRef.current.currentTime = value;
     }
     setProgress(value);
