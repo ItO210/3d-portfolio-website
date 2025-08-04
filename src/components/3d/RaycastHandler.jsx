@@ -11,6 +11,7 @@ export default function RaycastHandler({
   setTarget,
   screenMesh,
   currentTarget,
+  setIsAnimating,
 }) {
   const raycaster = useRef(new THREE.Raycaster());
   const pointer = useRef(new THREE.Vector2());
@@ -56,6 +57,7 @@ export default function RaycastHandler({
 
   const focusCameraOnObject = useCallback(
     (object) => {
+      if (!currentTarget) return;
       const box = new THREE.Box3().setFromObject(object);
       const center = box.getCenter(new THREE.Vector3());
       const size = box.getSize(new THREE.Vector3());
@@ -97,10 +99,11 @@ export default function RaycastHandler({
           controlsRef.current.enabled = true;
           controlsRef.current.enableZoom = true;
           setAnimating(false);
+          setIsAnimating(false);
         },
       });
     },
-    [camera, controlsRef, findNavEntryBy],
+    [camera, controlsRef, findNavEntryBy, currentTarget],
   );
 
   // --- setup pointer move ---
@@ -131,24 +134,33 @@ export default function RaycastHandler({
   // --- hover logic ---
   useFrame(() => {
     raycaster.current.setFromCamera(pointer.current, camera);
-    const intersects = raycaster.current.intersectObjects(hoverTargets.current);
+    const intersects = raycaster.current.intersectObjects(targets);
+    //    const intersects = raycaster.current.intersectObjects(hoverTargets.current);
 
     if (intersects.length > 0) {
       const hit = intersects[0].object;
-      const navEntry = findNavEntryBy("glass", hit.name);
-      if (!navEntry) return;
 
-      if (hovered.current !== hit) {
-        if (hovered.current) {
-          const prevEntry = findNavEntryBy("glass", hovered.current.name);
-          if (prevEntry) {
-            playHoverAnimation(findTargetByName(prevEntry.text), false);
+      if (hoverTargets.current.includes(hit)) {
+        // If hoverTargets is an array
+        const navEntry = findNavEntryBy("glass", hit.name);
+        if (!navEntry) return;
+
+        if (hovered.current !== hit) {
+          if (hovered.current) {
+            const prevEntry = findNavEntryBy("glass", hovered.current.name);
+            if (prevEntry) {
+              playHoverAnimation(findTargetByName(prevEntry.text), false);
+            }
           }
+          hovered.current = hit;
+          playHoverAnimation(findTargetByName(navEntry.text), true);
         }
-        hovered.current = hit;
-        playHoverAnimation(findTargetByName(navEntry.text), true);
+        document.body.style.cursor = "pointer";
+      } else if (hit.name.includes("Screen") && hit !== screenMesh) {
+        document.body.style.cursor = "pointer";
+      } else {
+        document.body.style.cursor = "default";
       }
-      document.body.style.cursor = "pointer";
     } else {
       if (hovered.current) {
         const prevEntry = findNavEntryBy("glass", hovered.current.name);
@@ -163,7 +175,13 @@ export default function RaycastHandler({
 
   // --- focus when screenMesh changes ---
   useEffect(() => {
-    if (screenMesh) focusCameraOnObject(screenMesh);
+    if (screenMesh) {
+      controlsRef.current.enabled = false;
+      controlsRef.current.enableZoom = false;
+      setAnimating(true);
+      setIsAnimating(true);
+      focusCameraOnObject(screenMesh);
+    }
   }, [screenMesh, currentTarget, focusCameraOnObject]);
 
   // --- click handler ---
@@ -177,7 +195,7 @@ export default function RaycastHandler({
         ),
       );
 
-      const intersects = raycaster.current.intersectObjects(clickTargets);
+      const intersects = raycaster.current.intersectObjects(targets);
       if (intersects.length === 0) return;
 
       const clicked = intersects[0].object;
@@ -194,20 +212,14 @@ export default function RaycastHandler({
         if (screenTarget && screenTarget !== screenMesh) {
           setScreenMesh?.(screenTarget);
           setTarget(navEntry.text);
-          controlsRef.current.enabled = false;
-          controlsRef.current.enableZoom = false;
-          setAnimating(true);
         }
-      } else {
+      } else if (clicked.name.includes("Glass")) {
         const navEntry = findNavEntryBy("glass", clicked.name);
         if (!navEntry) return;
         const screenTarget = findTargetByName(navEntry.target);
         if (screenTarget) {
           setScreenMesh?.(screenTarget);
           setTarget(navEntry.text);
-          controlsRef.current.enabled = false;
-          controlsRef.current.enableZoom = false;
-          setAnimating(true);
         }
       }
     };

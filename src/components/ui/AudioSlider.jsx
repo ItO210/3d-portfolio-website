@@ -10,7 +10,6 @@ export default function AudioSlider({ duration = 1, progress = 0, onChange }) {
     const rect = trackRef.current.getBoundingClientRect();
     const offsetX = e.clientX - rect.left;
     const newProgress = (offsetX / rect.width) * duration;
-    console.log(newProgress);
     onChange(newProgress);
   };
 

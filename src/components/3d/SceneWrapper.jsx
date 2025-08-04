@@ -5,13 +5,64 @@ import RaycastHandler from "./RaycastHandler";
 import FanAnimator from "./FanAnimator";
 import AttachHtmlToMesh from "./AttachHtmlToMesh";
 import { navConfig } from "../../utils/navConfig.js";
+import gsap from "gsap";
+import { useThree } from "@react-three/fiber";
 
-export default function SceneWrapper({ audioRef, setLoaded, showLoading }) {
+export default function SceneWrapper({
+  audioRef,
+  setLoaded,
+  showLoading,
+  cameraReset,
+  setCameraReset,
+  setIsAnimating,
+}) {
   const [interactives, setInteractives] = useState([]);
   const [fans, setFans] = useState([]);
   const controlsRef = useRef();
   const [screenMesh, setScreenMesh] = useState(null);
   const [target, setTarget] = useState(null);
+  const { camera } = useThree();
+
+  useEffect(() => {
+    if (!cameraReset) return;
+
+    setTarget(null);
+    setScreenMesh(null);
+
+    const controls = controlsRef.current;
+    if (!controls) return;
+    controls.enabled = false;
+    controls.enableZoom = false;
+
+    // Kill any existing camera tweens
+    gsap.killTweensOf([controls.target, camera.position]);
+
+    const newTarget = { x: 0, y: 2, z: 0 };
+    const newPosition = { x: 16.5, y: 4, z: 14.5 };
+
+    gsap.to(controls.target, {
+      ...newTarget,
+      duration: 2,
+      ease: "power2.out",
+      overwrite: "auto",
+    });
+
+    gsap.to(camera.position, {
+      ...newPosition,
+      duration: 2,
+      ease: "power2.out",
+      overwrite: "auto",
+      onUpdate: () => {
+        camera.lookAt(controls.target);
+        controls.update();
+      },
+      onComplete: () => {
+        controls.enabled = true;
+        controls.enableZoom = true;
+        setCameraReset(false); // mark reset complete
+      },
+    });
+  }, [cameraReset]);
 
   useEffect(() => {
     controlsRef.current.target.set(0, 2, 0);
@@ -50,6 +101,7 @@ export default function SceneWrapper({ audioRef, setLoaded, showLoading }) {
           setTarget={setTarget}
           screenMesh={screenMesh}
           currentTarget={target}
+          setIsAnimating={setIsAnimating}
         />
       )}
 

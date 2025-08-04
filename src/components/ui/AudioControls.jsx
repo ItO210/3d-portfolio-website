@@ -63,7 +63,6 @@ export default function AudioControls({
 
   const handleSeek = (value) => {
     if (audioRef.current) {
-      console.log("audio seek", audioRef.current.currentTime, value);
       audioRef.current.currentTime = value;
     }
     setProgress(value);
