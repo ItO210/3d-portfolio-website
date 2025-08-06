@@ -21,11 +21,11 @@ export default function ContactPage({ setTarget }) {
       <div className="absolute w-full h-full bg-grid"></div>
       <div className="absolute w-full h-full text-2xl p-4 flex flex-col items-center justify-between border  font-mono">
         <div className=" w-full text-center items-center justify-between flex  font-mono ">
-          <button onClick={() => setTarget("AboutMe_Red_Bloom")}>
+          <button onClick={() => setTarget("AboutMe_Red_Text_Target")}>
             <MdKeyboardArrowLeft size={50} />
           </button>
           <h1 className="text-4xl">Contact Me</h1>
-          <button onClick={() => setTarget("AboutMe_Red_Bloom")}>
+          <button onClick={() => setTarget("AboutMe_Red_Text_Target")}>
             <MdKeyboardArrowRight size={50} />
           </button>
         </div>

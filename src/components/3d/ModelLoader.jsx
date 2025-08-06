@@ -76,12 +76,7 @@ export default function ModelLoader({
       // Collect fans and interactive objects
       if (child.name.includes("Fan")) fans.push(child);
 
-      if (
-        child.name.includes("Bloom") ||
-        child.name.includes("Screen") ||
-        child.name.includes("Glass") ||
-        child.name.includes("First")
-      ) {
+      if (child.name.includes("Target") || child.name.includes("First")) {
         if (!child.userData.initialScale) {
           child.userData.initialScale = child.scale.clone();
         }

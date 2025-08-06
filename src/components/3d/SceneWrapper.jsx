@@ -15,6 +15,7 @@ export default function SceneWrapper({
   cameraReset,
   setCameraReset,
   setIsAnimating,
+  language,
 }) {
   const [interactives, setInteractives] = useState([]);
   const [fans, setFans] = useState([]);
@@ -89,7 +90,11 @@ export default function SceneWrapper({
 
       {screenMesh && PageComponent && (
         <AttachHtmlToMesh mesh={screenMesh}>
-          <PageComponent audioRef={audioRef} setTarget={setTarget} />
+          <PageComponent
+            language={language}
+            audioRef={audioRef}
+            setTarget={setTarget}
+          />
         </AttachHtmlToMesh>
       )}
 

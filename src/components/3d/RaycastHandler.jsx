@@ -106,7 +106,6 @@ export default function RaycastHandler({
     [camera, controlsRef, findNavEntryBy, currentTarget],
   );
 
-  // --- setup pointer move ---
   useEffect(() => {
     const handleMove = (e) => {
       const bounds = document.body.getBoundingClientRect();
@@ -117,49 +116,57 @@ export default function RaycastHandler({
     return () => window.removeEventListener("pointermove", handleMove);
   }, []);
 
-  // --- compute hoverTargets when targets change ---
   useEffect(() => {
     hoverTargets.current = targets.filter((t) =>
       Object.values(navConfig).some((conf) => conf.glass === t.name),
     );
   }, [targets]);
 
-  // --- GSAP cleanup ---
   useEffect(() => {
     return () => {
       gsap.globalTimeline.clear();
     };
   }, []);
 
-  // --- hover logic ---
   useFrame(() => {
     raycaster.current.setFromCamera(pointer.current, camera);
     const intersects = raycaster.current.intersectObjects(targets);
-    //    const intersects = raycaster.current.intersectObjects(hoverTargets.current);
 
     if (intersects.length > 0) {
       const hit = intersects[0].object;
 
       if (hoverTargets.current.includes(hit)) {
-        // If hoverTargets is an array
         const navEntry = findNavEntryBy("glass", hit.name);
         if (!navEntry) return;
 
         if (hovered.current !== hit) {
+          // unhover previous
           if (hovered.current) {
             const prevEntry = findNavEntryBy("glass", hovered.current.name);
             if (prevEntry) {
               playHoverAnimation(findTargetByName(prevEntry.text), false);
             }
           }
+
           hovered.current = hit;
           playHoverAnimation(findTargetByName(navEntry.text), true);
         }
-        document.body.style.cursor = "pointer";
-      } else if (hit.name.includes("Screen") && hit !== screenMesh) {
+
         document.body.style.cursor = "pointer";
       } else {
-        document.body.style.cursor = "default";
+        if (hovered.current) {
+          const prevEntry = findNavEntryBy("glass", hovered.current.name);
+          if (prevEntry) {
+            playHoverAnimation(findTargetByName(prevEntry.text), false);
+          }
+          hovered.current = null;
+        }
+
+        if (hit.name.includes("Screen") && hit !== screenMesh) {
+          document.body.style.cursor = "pointer";
+        } else {
+          document.body.style.cursor = "default";
+        }
       }
     } else {
       if (hovered.current) {
@@ -173,7 +180,6 @@ export default function RaycastHandler({
     }
   });
 
-  // --- focus when screenMesh changes ---
   useEffect(() => {
     if (screenMesh) {
       controlsRef.current.enabled = false;
@@ -184,7 +190,6 @@ export default function RaycastHandler({
     }
   }, [screenMesh, currentTarget, focusCameraOnObject]);
 
-  // --- click handler ---
   useEffect(() => {
     const handleClick = () => {
       raycaster.current.setFromCamera(pointer.current, camera);
