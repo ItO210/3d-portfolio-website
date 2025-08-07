@@ -9,7 +9,6 @@ import {
   BsFillVolumeUpFill,
   BsFillHouseDoorFill,
 } from "react-icons/bs";
-import { Stats } from "@react-three/drei";
 
 export default function App() {
   const [loaded, setLoaded] = useState(false);
@@ -57,7 +56,6 @@ export default function App() {
           setIsAnimating={setIsAnimating}
           language={language}
         />
-        <Stats />
       </Canvas>
       <div className="absolute pointer-events-none text-3xl w-full h-full text-neutral-200 font-mono z-10 flex flex-col">
         {showLoading ? (
