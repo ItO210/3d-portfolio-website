@@ -32,7 +32,6 @@ export default function SceneWrapper({
     if (!cameraReset) return;
 
     setTarget(null);
-    setScreenMesh(null);
 
     const controls = controlsRef.current;
     if (!controls) return;
