@@ -6,7 +6,7 @@ import { createImageCards } from "../../utils/cardFactory.jsx";
 
 const ITEMS_PER_PAGE = 9;
 
-export default function ProjectsPage() {
+export default function ProjectsPage({ language }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedProject, setSelectedProject] = useState(null);
 
@@ -31,16 +31,18 @@ export default function ProjectsPage() {
             <div className="text-center w-full flex flex-col ">
               <h1 className="text-4xl font-bold ">{selectedProject.title}</h1>
               <h2 className="text-xl font-extralight">
-                {selectedProject.date}
+                {selectedProject.date[language]}
               </h2>
             </div>
 
-            <p className="">{selectedProject.description}</p>
+            <p className="">{selectedProject.description[language]}</p>
 
             <ul className="list-disc pl-6 text-2xl">
-              {selectedProject.features.map((feature, index) => (
-                <li key={index}>{feature}</li>
-              ))}
+              {(selectedProject.features[language] || []).map(
+                (feature, index) => (
+                  <li key={index}>{feature}</li>
+                ),
+              )}
             </ul>
 
             <div className="flex justify-between items-center w-full gap-6 p-2">

@@ -41,7 +41,7 @@ export default function MusicPage({ audioRef }) {
     <div className="relative w-full h-full bg-neutral-200 text-white font-mono">
       <div className="absolute w-full h-full bg-grid"></div>
       <div className="absolute w-full h-full ">
-        <AudioVisualizer audioRef={audioRef} />
+        {audioRef.current && <AudioVisualizer audioRef={audioRef} />}
       </div>
       <div className="absolute w-full h-full flex flex-col items-center justify-center p-6 bg-gradient-to-b from-transparent to-neutral-200/60">
         <img

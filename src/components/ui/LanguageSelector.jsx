@@ -4,7 +4,6 @@ import { BsTranslate } from "react-icons/bs";
 const LANGUAGES = [
   { code: "en", label: "English" },
   { code: "es", label: "Español" },
-  { code: "ja", label: "日本語" },
 ];
 
 export default function LanguageSelector({ selected, onChange }) {

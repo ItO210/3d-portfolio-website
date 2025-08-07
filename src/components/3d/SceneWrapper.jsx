@@ -7,6 +7,11 @@ import AttachHtmlToMesh from "./AttachHtmlToMesh";
 import { navConfig } from "../../utils/navConfig.js";
 import gsap from "gsap";
 import { useThree } from "@react-three/fiber";
+import AboutMe from "../pages/AboutMe";
+import ProjectsPage from "../pages/ProjectsPage";
+import GamesPage from "../pages/GamesPage";
+import MusicPage from "../pages/MusicPage";
+import ContactPage from "../pages/ContactPage";
 
 export default function SceneWrapper({
   audioRef,
@@ -20,7 +25,6 @@ export default function SceneWrapper({
   const [interactives, setInteractives] = useState([]);
   const [fans, setFans] = useState([]);
   const controlsRef = useRef();
-  const [screenMesh, setScreenMesh] = useState(null);
   const [target, setTarget] = useState(null);
   const { camera } = useThree();
 
@@ -73,11 +77,18 @@ export default function SceneWrapper({
     controlsRef.current.maxPolarAngle = Math.PI / 2;
   }, []);
 
-  const activeEntry = screenMesh
-    ? Object.values(navConfig).find((entry) => entry.text === target)
-    : null;
-
-  const PageComponent = activeEntry?.component;
+  const phoneScreen = interactives.find(
+    (m) => m.name === "Phone_Screen_White_Target",
+  );
+  const vendingMachineScreen = interactives.find(
+    (m) => m.name === "VendingMachine_Screen_White_Target",
+  );
+  const jackboxScreen = interactives.find(
+    (m) => m.name === "Jackbox_Screen_White_Target",
+  );
+  const arcadeScreen = interactives.find(
+    (m) => m.name === "ArcadeMachine_Screen_White_Target",
+  );
 
   return (
     <>
@@ -88,13 +99,31 @@ export default function SceneWrapper({
         setLoaded={setLoaded}
       />
 
-      {screenMesh && PageComponent && (
-        <AttachHtmlToMesh mesh={screenMesh}>
-          <PageComponent
-            language={language}
-            audioRef={audioRef}
-            setTarget={setTarget}
-          />
+      {phoneScreen && (
+        <AttachHtmlToMesh mesh={phoneScreen}>
+          {target && target === "Contact_Red_Text_Target" ? (
+            <ContactPage language={language} setTarget={setTarget} />
+          ) : (
+            <AboutMe language={language} setTarget={setTarget} />
+          )}
+        </AttachHtmlToMesh>
+      )}
+
+      {vendingMachineScreen && (
+        <AttachHtmlToMesh mesh={vendingMachineScreen}>
+          <ProjectsPage language={language} />
+        </AttachHtmlToMesh>
+      )}
+
+      {jackboxScreen && (
+        <AttachHtmlToMesh mesh={jackboxScreen}>
+          <MusicPage language={language} audioRef={audioRef} />
+        </AttachHtmlToMesh>
+      )}
+
+      {arcadeScreen && (
+        <AttachHtmlToMesh mesh={arcadeScreen}>
+          <GamesPage language={language} />
         </AttachHtmlToMesh>
       )}
 
@@ -102,9 +131,7 @@ export default function SceneWrapper({
         <RaycastHandler
           targets={interactives}
           controlsRef={controlsRef}
-          setScreenMesh={setScreenMesh}
           setTarget={setTarget}
-          screenMesh={screenMesh}
           currentTarget={target}
           setIsAnimating={setIsAnimating}
         />

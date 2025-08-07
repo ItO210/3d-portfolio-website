@@ -1,9 +1,3 @@
-import AboutMe from "../components/pages/AboutMe";
-import ProjectsPage from "../components/pages/ProjectsPage";
-import GamesPage from "../components/pages/GamesPage";
-import MusicPage from "../components/pages/MusicPage";
-import ContactPage from "../components/pages/ContactPage";
-
 export const navConfig = {
   AboutMe: {
     glass: "AboutMe_Glass_Target",
@@ -13,7 +7,6 @@ export const navConfig = {
     htmlRotation: [0, -Math.PI / 2, 0],
     htmlSizeAxis: ["z", "x"],
     htmlOffset: [-0.001, 0, 0],
-    component: AboutMe,
   },
   Projects: {
     glass: "Projects_Glass_Target",
@@ -23,7 +16,6 @@ export const navConfig = {
     htmlRotation: [0, 0, 0],
     htmlSizeAxis: ["x", "y"],
     htmlOffset: [0, 0, 0.001],
-    component: ProjectsPage,
   },
   Games: {
     glass: "Games_Glass_Target",
@@ -33,7 +25,6 @@ export const navConfig = {
     htmlRotation: [0, Math.PI, 0],
     htmlSizeAxis: ["x", "y"],
     htmlOffset: [0, 0, -0.001],
-    component: GamesPage,
   },
   Music: {
     glass: "Music_Glass_Target",
@@ -43,7 +34,6 @@ export const navConfig = {
     htmlRotation: [0, Math.PI, 0],
     htmlSizeAxis: ["x", "y"],
     htmlOffset: [0, 0, -0.001],
-    component: MusicPage,
   },
   Contact: {
     glass: "Contact_Glass_Target",
@@ -53,6 +43,5 @@ export const navConfig = {
     htmlRotation: [0, Math.PI / 2, 0],
     htmlSizeAxis: ["z", "x"],
     htmlOffset: [-0.001, 0, 0],
-    component: ContactPage,
   },
 };

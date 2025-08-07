@@ -4,7 +4,7 @@ import VolumeSlider from "../ui/VolumeSlider.jsx";
 
 const MainAudioControl = ({ audioRef }) => {
   const [muted, setMuted] = useState(false);
-  const [volume, setVolume] = useState(1); // range: 0 to 1
+  const [volume, setVolume] = useState(0.2); // range: 0 to 1
   const [showSlider, setShowSlider] = useState(false);
 
   const handleToggleMute = () => {

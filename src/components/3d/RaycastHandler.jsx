@@ -7,9 +7,7 @@ import { navConfig } from "../../utils/navConfig.js";
 export default function RaycastHandler({
   targets,
   controlsRef,
-  setScreenMesh,
   setTarget,
-  screenMesh,
   currentTarget,
   setIsAnimating,
 }) {
@@ -19,6 +17,7 @@ export default function RaycastHandler({
   const hoverTargets = useRef([]);
   const { camera } = useThree();
   const [animating, setAnimating] = useState(false);
+  const [screenMesh, setScreenMesh] = useState(null);
 
   // --- helpers ---
   const findNavEntryBy = useCallback(
