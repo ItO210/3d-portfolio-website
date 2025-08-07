@@ -25,7 +25,10 @@ This project was developed on **August 2025**.
 - Tailwind
 
 ## Preview
-
+![gif1](https://github.com/user-attachments/assets/f7108c0f-e408-4237-b11f-35929f610d94)
+![gif2](https://github.com/user-attachments/assets/d00205b1-8019-4dbd-a4cf-7db6a711b39c)
+![gif3](https://github.com/user-attachments/assets/e87f1d0d-d892-4680-a1af-c5adb29fd829)
+![gif4](https://github.com/user-attachments/assets/78bff3bb-6911-46f6-8f1f-2d98dc29ffd9)
 
 ## Credits
 
