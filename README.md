@@ -34,6 +34,7 @@ This project was developed on **August 2025**.
 
 Everything in this project was created by me, **except the music**.
 
+- All music was made by [@a_beco_](https://soundcloud.com/baron1_3)
 - The 3D model was built in **Blender**, inspired by [@PolygonRunway](https://www.youtube.com/@polygonrunway).
 - I learned the basics of **Three.js** by following this [tutorial](https://www.youtube.com/watch?v=AB6sulUMRGE&t=25130s).
 
