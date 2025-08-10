@@ -28,7 +28,7 @@ export default function App() {
 
   const handleCameraReset = () => {
     if (isAnimating) return;
-    setCameraReset(true);
+    setCameraReset((prev) => !prev);
   };
 
   useEffect(() => {
@@ -72,7 +72,7 @@ export default function App() {
               <LanguageSelector selected={language} onChange={setLanguage} />
               <audio
                 ref={audioRef}
-                src={"/audios/audio1.mp3"}
+                src={"/music/denno.wav"}
                 className="hidden"
                 autoPlay
               />

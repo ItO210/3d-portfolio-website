@@ -25,13 +25,13 @@ export default function SceneWrapper({
   const [interactives, setInteractives] = useState([]);
   const [fans, setFans] = useState([]);
   const controlsRef = useRef();
+  const [screenMesh, setScreenMesh] = useState(null);
   const [target, setTarget] = useState(null);
   const { camera } = useThree();
 
   useEffect(() => {
-    if (!cameraReset) return;
-
     setTarget(null);
+    setScreenMesh(null);
 
     const controls = controlsRef.current;
     if (!controls) return;
@@ -63,7 +63,7 @@ export default function SceneWrapper({
       onComplete: () => {
         controls.enabled = true;
         controls.enableZoom = true;
-        setCameraReset(false); // mark reset complete
+        setIsAnimating(false);
       },
     });
   }, [cameraReset]);
@@ -130,7 +130,9 @@ export default function SceneWrapper({
         <RaycastHandler
           targets={interactives}
           controlsRef={controlsRef}
+          setScreenMesh={setScreenMesh}
           setTarget={setTarget}
+          screenMesh={screenMesh}
           currentTarget={target}
           setIsAnimating={setIsAnimating}
         />
