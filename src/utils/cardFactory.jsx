@@ -35,7 +35,7 @@ export const createImageCards = (images) => {
     cards.push(
       <div
         key={`image-${i}`}
-        className="w-full h-full flex items-center justify-center rounded-3xl overflow-hidden shadow-neutral-500 backdrop-blur-xs bg-neutral-300/40 border border-neutral-50"
+        className="w-full h-full flex items-center justify-center rounded-3xl overflow-hidden shadow-neutral-500 "
       >
         <img
           src={image.src}

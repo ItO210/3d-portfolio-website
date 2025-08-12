@@ -33,6 +33,39 @@ export const projects = [
   },
 
   {
+    title: "Cicata Nexus",
+    can: "/images/projects/CicataNexus/CicataNexusCan.png",
+    images: [
+      { src: "/images/projects/CicataNexus/1.png", alt: "Image1" },
+      { src: "/images/projects/CicataNexus/2.png", alt: "Image2" },
+      { src: "/images/projects/CicataNexus/3.png", alt: "Image3" },
+      { src: "/images/projects/CicataNexus/4.png", alt: "Image4" },
+    ],
+    description: {
+      en: "Cicata Nexus is a web-based service request platform that centralizes equipment, materials, and support requests. It features role-specific dashboards, scheduling tools, and inventory tracking to streamline laboratory operations.",
+      es: "Cicata Nexus es una plataforma web para la gestión de solicitudes de servicios que centraliza solicitudes de equipo, materiales y soporte. Cuenta con paneles específicos por rol, herramientas de programación y control de inventario para optimizar operaciones de laboratorio.",
+    },
+    features: {
+      en: [
+        "Centralized requests for equipment, materials, and support.",
+        "Role-specific dashboards for users, managers, and admins.",
+        "Integrated scheduling and calendar views.",
+        "Inventory tracking and request history.",
+        "Responsive design for desktop and mobile access.",
+      ],
+      es: [
+        "Solicitudes centralizadas de equipo, materiales y soporte.",
+        "Paneles específicos por rol para usuarios, gestores y administradores.",
+        "Programación integrada con vistas de calendario.",
+        "Control de inventario e historial de solicitudes.",
+        "Diseño adaptable para acceso en escritorio y móvil.",
+      ],
+    },
+    date: { en: "August 2025", es: "Agosto de 2025" },
+    github: "https://github.com/ItO210/service-request-manager",
+  },
+
+  {
     title: "HealthSync",
     can: "/images/projects/HealthSync/HealthSyncCan.png",
     images: [
