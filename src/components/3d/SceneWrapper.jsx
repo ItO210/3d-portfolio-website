@@ -92,7 +92,6 @@ export default function SceneWrapper({
   return (
     <>
       <ModelLoader
-        url="/models/3dPortfolio.glb"
         onMeshReady={setInteractives}
         onFansReady={setFans}
         setLoaded={setLoaded}

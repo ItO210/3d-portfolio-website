@@ -1,7 +1,7 @@
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 export default function AboutMe({ setTarget }) {
   return (
-    <div className="h-full w-full relative bg-neutral-200">
+    <div className="h-full w-full relative bg-neutral-200 select-none">
       <div className="absolute w-full h-full bg-grid"></div>
       <div className="absolute w-full h-full text-2xl  p-4 flex flex-col items-center justify-between border gap-2 font-mono">
         <div className=" w-full text-center items-center justify-between flex  font-mono ">
@@ -14,7 +14,7 @@ export default function AboutMe({ setTarget }) {
           </button>
         </div>
         <img
-          src="/images/profile.jpeg"
+          src="images/profile.jpeg"
           className="object-cover rounded-4xl shadow-lg shadow-neutral-500 h-1/3  border border-neutral-50"
         />
 

@@ -73,81 +73,101 @@ export default function Loading({ loaded, setShowLoading }) {
    0 0 8px rgba(200,0,0,0.5)`,
   ];
 
-  // GSAP animations for noise, scanlines, and text shadows
   useEffect(() => {
-    gsap.to(linesRef.current, {
-      backgroundPosition: "0px 6px",
-      duration: 0.2,
-      repeat: -1,
-      ease: "none",
-    });
+    const ctx = gsap.context(() => {
+      if (
+        !linesRef.current ||
+        !titleRef.current ||
+        !timeRef.current ||
+        !counterRef.current ||
+        !centerRef.current
+      ) {
+        return; // Bail if refs not ready
+      }
 
-    gsap.to(linesRef.current, {
-      keyframes: [
-        { opacity: 0.6, duration: 0.6 },
-        { opacity: 0.3, duration: 0.6 },
-        { opacity: 0.5, duration: 0.45 },
-        { opacity: 0.8, duration: 0.45 },
-        { opacity: 0.4, duration: 0.6 },
-        { opacity: 0.7, duration: 0.6 },
-        { opacity: 0.6, duration: 0.6 },
-      ],
-      repeat: -1,
-      ease: "linear",
-    });
-
-    gsap.to(titleRef.current, {
-      keyframes: textShadows.map((shadow) => ({
-        textShadow: shadow,
-        duration: 0.25,
-      })),
-      repeat: -1,
-      yoyo: true,
-      ease: "steps(9)",
-    });
-
-    const text = "3D Portfolio";
-    gsap.to(
-      { i: 0 },
-      {
-        i: text.length * 2,
-        duration: 2,
+      // Scanline animations
+      const scanMove = gsap.to(linesRef.current, {
+        backgroundPosition: "0px 6px",
+        duration: 0.2,
         repeat: -1,
         ease: "none",
-        onUpdate: function () {
-          const val = Math.floor(this.targets()[0].i);
+      });
 
-          if (val <= text.length) {
-            titleRef.current.textContent = text.slice(0, val);
-          } else {
-            const eraseCount = val - text.length;
-            const visible = text.slice(eraseCount);
-            const padding = " ".repeat(eraseCount); // keeps width
-            titleRef.current.textContent = padding + visible;
-          }
+      const scanOpacity = gsap.to(linesRef.current, {
+        keyframes: [
+          { opacity: 0.6, duration: 0.6 },
+          { opacity: 0.3, duration: 0.6 },
+          { opacity: 0.5, duration: 0.45 },
+          { opacity: 0.8, duration: 0.45 },
+          { opacity: 0.4, duration: 0.6 },
+          { opacity: 0.7, duration: 0.6 },
+          { opacity: 0.6, duration: 0.6 },
+        ],
+        repeat: -1,
+        ease: "linear",
+      });
+
+      // Title text shadow
+      gsap.to(titleRef.current, {
+        keyframes: textShadows.map((shadow) => ({
+          textShadow: shadow,
+          duration: 0.25,
+        })),
+        repeat: -1,
+        yoyo: true,
+        ease: "steps(9)",
+      });
+
+      // Typing effect for title
+      const text = "3D Portfolio";
+      gsap.to(
+        { i: 0 },
+        {
+          i: text.length * 2,
+          duration: 2,
+          repeat: -1,
+          ease: "none",
+          onUpdate: function () {
+            const el = titleRef.current;
+            if (!el) return; // Prevent null errors
+
+            const val = Math.floor(this.targets()[0].i);
+            if (val <= text.length) {
+              el.textContent = text.slice(0, val);
+            } else {
+              const eraseCount = val - text.length;
+              const visible = text.slice(eraseCount);
+              const padding = " ".repeat(eraseCount);
+              el.textContent = padding + visible;
+            }
+          },
         },
-      },
-    );
+      );
 
-    gsap.to([timeRef.current, counterRef.current], {
-      keyframes: textShadows.map((shadow) => ({
-        textShadow: shadow,
-        duration: 0.15,
-      })),
-      repeat: -1,
-      yoyo: true,
-      ease: "steps(9)",
+      // Time and counter shadow effect
+      gsap.to([timeRef.current, counterRef.current], {
+        keyframes: textShadows.map((shadow) => ({
+          textShadow: shadow,
+          duration: 0.15,
+        })),
+        repeat: -1,
+        yoyo: true,
+        ease: "steps(9)",
+      });
+
+      // Center text shadow
+      gsap.to(centerRef.current, {
+        keyframes: textShadows.map((shadow) => ({
+          textShadow: shadow,
+          duration: 0.25,
+        })),
+        repeat: -1,
+        yoyo: true,
+        ease: "steps(9)",
+      });
     });
 
-    gsap.to(centerRef.current, {
-      keyframes: textShadows.map((shadow) => ({
-        textShadow: shadow,
-        duration: 0.25,
-      })),
-      repeat: -1,
-      yoyo: true,
-      ease: "steps(9)",
-    });
+    return () => ctx.revert(); // Clean up all animations on unmount
   }, []);
 
   useEffect(() => {

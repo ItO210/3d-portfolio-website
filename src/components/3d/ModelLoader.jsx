@@ -3,14 +3,9 @@ import { useGLTF } from "@react-three/drei";
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 
-export default function ModelLoader({
-  url,
-  onMeshReady,
-  onFansReady,
-  setLoaded,
-}) {
+export default function ModelLoader({ onMeshReady, onFansReady, setLoaded }) {
   const groupRef = useRef();
-  const { scene } = useGLTF(url);
+  const { scene } = useGLTF("models/3dPortfolio.glb");
 
   const manager = new THREE.LoadingManager();
 
@@ -21,9 +16,9 @@ export default function ModelLoader({
   const textures = useMemo(() => {
     const loader = new THREE.TextureLoader(manager);
     const textureMap = {
-      First: "/textures/First.webp",
-      Second: "/textures/Second.webp",
-      Third: "/textures/Third.webp",
+      First: "textures/First.webp",
+      Second: "textures/Second.webp",
+      Third: "textures/Third.webp",
     };
 
     const loaded = {};

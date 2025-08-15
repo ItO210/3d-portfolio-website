@@ -34,7 +34,7 @@ export default function MusicPage({ audioRef }) {
   };
 
   return (
-    <div className="relative w-full h-full bg-neutral-200 text-white font-mono">
+    <div className="select-none relative w-full h-full bg-neutral-200 text-white font-mono">
       <div className="absolute w-full h-full bg-grid"></div>
       <div className="absolute w-full h-full ">
         {audioRef.current && <AudioVisualizer audioRef={audioRef} />}

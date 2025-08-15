@@ -3,6 +3,7 @@ import { projects } from "../../utils/projectsData";
 import { BsGithub } from "react-icons/bs";
 import Carousel from "../ui/Carousel.jsx";
 import { createImageCards } from "../../utils/cardFactory.jsx";
+import TechCarousel from "../ui/TechCarousel.jsx";
 
 const ITEMS_PER_PAGE = 9;
 
@@ -21,13 +22,13 @@ export default function ProjectsPage({ language }) {
     // Fullscreen view
 
     return (
-      <div className="w-full h-full relative bg-neutral-200">
+      <div className="w-full h-full relative bg-neutral-200 select-none">
         <div className="absolute w-full h-full bg-grid"></div>
         <div className="absolute w-full h-full text-3xl font-mono p-6 flex flex-col items-center justify-between gap-2">
-          <div className="flex items-center justify-center overflow-hidden w-full h-full">
+          <div className="flex items-center justify-center overflow-hidden w-full h-2/5">
             <Carousel items={createImageCards(selectedProject.images)} />
           </div>
-          <div className="gap-2 h-full w-full flex flex-col justify-between">
+          <div className="gap-2 h-3/5 w-full flex flex-col justify-around">
             <div className="text-center w-full flex flex-col ">
               <h1 className="text-4xl font-bold ">{selectedProject.title}</h1>
               <h2 className="text-xl font-extralight">
@@ -36,7 +37,9 @@ export default function ProjectsPage({ language }) {
             </div>
 
             <p className="">{selectedProject.description[language]}</p>
-
+            <div className="w-full ">
+              <TechCarousel icons={selectedProject.tech} />
+            </div>
             <ul className="list-disc pl-6 text-2xl">
               {(selectedProject.features[language] || []).map(
                 (feature, index) => (
@@ -46,12 +49,6 @@ export default function ProjectsPage({ language }) {
             </ul>
 
             <div className="flex justify-between items-center w-full gap-6 p-2">
-              <button
-                onClick={() => setSelectedProject(null)}
-                className="w-full font-mono flex gap-4 items-center justify-center p-4 rounded-2xl shadow-md shadow-neutral-500 hover:scale-105 transition-transform"
-              >
-                Exit
-              </button>
               <button
                 onClick={() => setSelectedProject(null)}
                 className="w-full font-mono flex gap-4 items-center justify-center p-4 rounded-2xl shadow-md shadow-neutral-500 hover:scale-105 transition-transform"
@@ -76,7 +73,7 @@ export default function ProjectsPage({ language }) {
   }
 
   return (
-    <div className="w-full h-full relative bg-neutral-200">
+    <div className="w-full h-full relative bg-neutral-200 select-none">
       <div className="absolute w-full h-full bg-grid"></div>
       <div className="absolute w-full h-full text-3xl font-mono  p-8 flex flex-col items-center gap-6">
         <div className="w-full h-full grid grid-cols-3 grid-rows-3 gap-4">

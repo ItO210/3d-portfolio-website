@@ -55,7 +55,7 @@ const Carousel = ({ items, autoPlay = true, interval = 3000 }) => {
 
   return (
     <div className="relative w-full h-full overflow-hidden p-2 flex items-center justify-center">
-      <div className="relative w-[90%] h-full">
+      <div className="relative w-[85%] h-full">
         {visibleItems.map((item, index) => {
           const baseOffset = (index - 2 + offset) * 100;
 
