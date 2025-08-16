@@ -73,6 +73,10 @@ export const projects = [
       es: "Cicata Nexus es una plataforma web para la gestión de solicitudes de servicios que centraliza solicitudes de equipo, materiales y soporte. Cuenta con paneles específicos por rol, herramientas de programación y control de inventario para optimizar operaciones de laboratorio.",
     },
     tech: [SiReact, SiTailwindcss, SiVite, SiMongodb, SiExpress, SiNodedotjs],
+    madeFor: [
+      "CICATA Unidad Morelos",
+      "https://mx.linkedin.com/company/cicatamor",
+    ],
     features: {
       en: [
         "Centralized requests for equipment, materials, and support.",
@@ -103,6 +107,7 @@ export const projects = [
       { src: "images/projects/HealthSync/image4.png", alt: "Image4" },
       { src: "images/projects/HealthSync/image5.jpeg", alt: "Image5" },
     ],
+    madeFor: ["Hospital del Niño Morelense", "https://www.hnm.org.mx/"],
     description: {
       en: "HealthSync is a hospital equipment ticket management system for web and Android. Staff can report equipment issues online, while technicians and admins handle tickets through the mobile app. It supports repair tracking, evidence uploads, performance monitoring, and account management.",
       es: "HealthSync es un sistema de gestión de tickets de equipos hospitalarios para web y Android. El personal reporta problemas en línea, mientras que técnicos y administradores gestionan tickets desde la app. Permite seguimiento de reparaciones, carga de evidencias, control de rendimiento y administración de cuentas.",
@@ -150,6 +155,7 @@ export const projects = [
       en: "AIRacingLine is an AI-powered Unity tool that generates optimal racing lines and gives speed feedback in real time. An ML-Agents-trained AI drives the ideal path, which is recorded and shown with dynamic colors to guide acceleration and braking.",
       es: "AIRacingLine es una herramienta para Unity con IA que genera líneas de carrera óptimas y ofrece retroalimentación de velocidad en tiempo real. Una IA entrenada con ML-Agents conduce el camino ideal, que se registra y muestra con colores dinámicos para guiar aceleración y frenado.",
     },
+    madeFor: ["Rewind Games", "https://rewindgames.ca/"],
     tech: [SiUnity, SiUnity, SiUnity, SiUnity, SiUnity],
     features: {
       en: [
@@ -182,6 +188,7 @@ export const projects = [
       { src: "images/projects/CodeCuisine/image4.png", alt: "Image5" },
       { src: "images/projects/CodeCuisine/image5.jpg", alt: "Image6" },
     ],
+    madeFor: ["Aulify", "https://www.aulify.mx/"],
     description: {
       en: "CodeCuisine is an educational game that teaches programming through a hamburger-making challenge. Players use drag-and-drop logic blocks to build recipes, and the system checks their logic with instant feedback. It includes progress tracking and an admin dashboard.",
       es: "CodeCuisine es un juego educativo que enseña programación mediante un reto de hacer hamburguesas. Los jugadores usan bloques lógicos de arrastrar y soltar para crear recetas, y el sistema revisa su lógica al instante. Incluye seguimiento de progreso y panel de administración.",

@@ -25,6 +25,7 @@ export default function ProjectsPage({ language }) {
       next: "Next",
       page: "Page",
       of: "of",
+      madeFor: "Developed for:",
     },
     es: {
       back: "Volver a Proyectos",
@@ -32,6 +33,7 @@ export default function ProjectsPage({ language }) {
       next: "Siguiente",
       page: "Página",
       of: "de",
+      madeFor: "Desarrollado para:",
     },
   };
 
@@ -50,12 +52,26 @@ export default function ProjectsPage({ language }) {
           <div className="gap-2 h-3/5 w-full flex flex-col justify-around">
             <div className="text-center w-full flex flex-col">
               <h1 className="text-4xl font-bold">{selectedProject.title}</h1>
-              <h2 className="text-xl font-extralight">
+              <h2 className="text-xl font-light">
                 {selectedProject.date[language]}
               </h2>
             </div>
-
-            <p>{selectedProject.description[language]}</p>
+            {selectedProject.madeFor && (
+              <div className="flex flex-col justify-center items-center w-full ">
+                <p className="text-2xl font-bold">{t.madeFor}</p>
+                <a
+                  href={selectedProject.madeFor[1]}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className=" flex gap-4 items-center justify-center text-center px-4 py-2 rounded-2xl shadow-md shadow-neutral-500 hover:scale-105 transition-transform"
+                >
+                  {selectedProject.madeFor[0]}
+                </a>
+              </div>
+            )}
+            <p className="text-center">
+              {selectedProject.description[language]}
+            </p>
 
             <div className="w-full">
               <TechCarousel icons={selectedProject.tech} />
