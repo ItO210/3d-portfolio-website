@@ -18,28 +18,49 @@ export default function ProjectsPage({ language }) {
     startIndex + ITEMS_PER_PAGE,
   );
 
+  const content = {
+    en: {
+      back: "Back to Projects",
+      prev: "Prev",
+      next: "Next",
+      page: "Page",
+      of: "of",
+    },
+    es: {
+      back: "Volver a Proyectos",
+      prev: "Anterior",
+      next: "Siguiente",
+      page: "Página",
+      of: "de",
+    },
+  };
+
+  const t = content[language] || content.en;
+
   if (selectedProject) {
     // Fullscreen view
-
     return (
-      <div className="w-full h-full relative bg-neutral-200 select-none">
+      <div className="font-mono w-full h-full relative bg-neutral-200 select-none">
         <div className="absolute w-full h-full bg-grid"></div>
         <div className="absolute w-full h-full text-3xl font-mono p-6 flex flex-col items-center justify-between gap-2">
           <div className="flex items-center justify-center overflow-hidden w-full h-2/5">
             <Carousel items={createImageCards(selectedProject.images)} />
           </div>
+
           <div className="gap-2 h-3/5 w-full flex flex-col justify-around">
-            <div className="text-center w-full flex flex-col ">
-              <h1 className="text-4xl font-bold ">{selectedProject.title}</h1>
+            <div className="text-center w-full flex flex-col">
+              <h1 className="text-4xl font-bold">{selectedProject.title}</h1>
               <h2 className="text-xl font-extralight">
                 {selectedProject.date[language]}
               </h2>
             </div>
 
-            <p className="">{selectedProject.description[language]}</p>
-            <div className="w-full ">
+            <p>{selectedProject.description[language]}</p>
+
+            <div className="w-full">
               <TechCarousel icons={selectedProject.tech} />
             </div>
+
             <ul className="list-disc pl-6 text-2xl">
               {(selectedProject.features[language] || []).map(
                 (feature, index) => (
@@ -53,7 +74,7 @@ export default function ProjectsPage({ language }) {
                 onClick={() => setSelectedProject(null)}
                 className="w-full font-mono flex gap-4 items-center justify-center p-4 rounded-2xl shadow-md shadow-neutral-500 hover:scale-105 transition-transform"
               >
-                Back to Projects
+                {t.back}
               </button>
 
               <a
@@ -63,7 +84,7 @@ export default function ProjectsPage({ language }) {
                 className="w-full font-mono flex gap-4 items-center justify-center p-4 rounded-2xl shadow-md shadow-neutral-500 hover:scale-105 transition-transform"
               >
                 <BsGithub />
-                Github
+                Github{" "}
               </a>
             </div>
           </div>
@@ -72,23 +93,24 @@ export default function ProjectsPage({ language }) {
     );
   }
 
+  // Grid view
   return (
-    <div className="w-full h-full relative bg-neutral-200 select-none">
+    <div className="w-full h-full relative bg-neutral-200 select-none font-mono">
       <div className="absolute w-full h-full bg-grid"></div>
-      <div className="absolute w-full h-full text-3xl font-mono  p-8 flex flex-col items-center gap-6">
+      <div className="absolute w-full h-full text-3xl font-mono p-8 flex flex-col items-center gap-6">
         <div className="w-full h-full grid grid-cols-3 grid-rows-3 gap-4">
           {currentProjects.map((project, index) => (
             <div
               key={index}
               onClick={() => setSelectedProject(project)}
-              className="flex flex-col shadow-lg shadow-neutral-500 bg-neutral-200/60 backdrop-blur-xs items-center justify-center text-center  rounded-2xl cursor-pointer hover:scale-105 transition-transform border border-neutral-50"
+              className="flex flex-col shadow-lg shadow-neutral-500 bg-neutral-200/60 backdrop-blur-xs items-center justify-center text-center rounded-2xl cursor-pointer hover:scale-105 transition-transform border border-neutral-50"
             >
               <img
                 src={project.can}
                 alt={project.title}
                 className="w-full h-full object-cover"
               />
-              <div className="p-2">{project.title}</div>
+              <div className="p-2 font-mono">{project.title}</div>
             </div>
           ))}
         </div>
@@ -104,11 +126,11 @@ export default function ProjectsPage({ language }) {
                 : "bg-neutral-100 hover:bg-neutral-300"
             }`}
           >
-            Prev
+            {t.prev}
           </button>
 
           <span className="flex items-center">
-            Page {currentPage} of {totalPages}
+            {t.page} {currentPage} {t.of} {totalPages}
           </span>
 
           <button
@@ -122,7 +144,7 @@ export default function ProjectsPage({ language }) {
                 : "bg-neutral-100 hover:bg-neutral-300"
             }`}
           >
-            Next
+            {t.next}
           </button>
         </div>
       </div>

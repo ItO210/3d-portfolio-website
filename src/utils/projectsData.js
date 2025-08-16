@@ -21,7 +21,7 @@ import {
 
 export const projects = [
   {
-    title: "3DPortfolio",
+    title: "3D Portfolio",
     can: "images/projects/3dPortfolio/3dPortfolioCan.png",
     images: [
       { src: "images/projects/3dPortfolio/gif1.gif", alt: "Image1" },
@@ -62,6 +62,11 @@ export const projects = [
       { src: "images/projects/CicataNexus/2.png", alt: "Image2" },
       { src: "images/projects/CicataNexus/3.png", alt: "Image3" },
       { src: "images/projects/CicataNexus/4.png", alt: "Image4" },
+      { src: "images/projects/CicataNexus/5.png", alt: "Image5" },
+      { src: "images/projects/CicataNexus/6.png", alt: "Image6" },
+      { src: "images/projects/CicataNexus/7.png", alt: "Image7" },
+      { src: "images/projects/CicataNexus/8.jpeg", alt: "Image8" },
+      { src: "images/projects/CicataNexus/9.jpeg", alt: "Image9" },
     ],
     description: {
       en: "Cicata Nexus is a web-based service request platform that centralizes equipment, materials, and support requests. It features role-specific dashboards, scheduling tools, and inventory tracking to streamline laboratory operations.",
@@ -89,13 +94,14 @@ export const projects = [
   },
 
   {
-    title: "HealthSync",
+    title: "Health Sync",
     can: "images/projects/HealthSync/HealthSyncCan.png",
     images: [
       { src: "images/projects/HealthSync/image1.png", alt: "Image1" },
       { src: "images/projects/HealthSync/image2.png", alt: "Image2" },
       { src: "images/projects/HealthSync/image3.png", alt: "Image3" },
       { src: "images/projects/HealthSync/image4.png", alt: "Image4" },
+      { src: "images/projects/HealthSync/image5.jpeg", alt: "Image5" },
     ],
     description: {
       en: "HealthSync is a hospital equipment ticket management system for web and Android. Staff can report equipment issues online, while technicians and admins handle tickets through the mobile app. It supports repair tracking, evidence uploads, performance monitoring, and account management.",
@@ -132,7 +138,7 @@ export const projects = [
   },
 
   {
-    title: "AIRacingLine",
+    title: "AI Racing Line",
     can: "images/projects/AIRacingLine/AIRacingLineCan.png",
     images: [
       { src: "images/projects/AIRacingLine/image1.png", alt: "Image1" },
@@ -166,7 +172,7 @@ export const projects = [
   },
 
   {
-    title: "CodeCuisine",
+    title: "Code Cuisine",
     can: "images/projects/CodeCuisine/CodeCuisineCan.png",
     images: [
       { src: "images/projects/CodeCuisine/image1.png", alt: "Image1" },
@@ -174,6 +180,7 @@ export const projects = [
       { src: "images/projects/CodeCuisine/image2.png", alt: "Image3" },
       { src: "images/projects/CodeCuisine/image3.png", alt: "Image4" },
       { src: "images/projects/CodeCuisine/image4.png", alt: "Image5" },
+      { src: "images/projects/CodeCuisine/image5.jpg", alt: "Image6" },
     ],
     description: {
       en: "CodeCuisine is an educational game that teaches programming through a hamburger-making challenge. Players use drag-and-drop logic blocks to build recipes, and the system checks their logic with instant feedback. It includes progress tracking and an admin dashboard.",
@@ -211,7 +218,7 @@ export const projects = [
   },
 
   {
-    title: "AireSano",
+    title: "Aire Sano",
     can: "images/projects/AireSano/AireSanoCan.png",
     images: [
       { src: "images/projects/AireSano/image1.png", alt: "Image1" },
