@@ -6,7 +6,7 @@ Users can explore the 3D space through smooth camera transitions and interact wi
 
 This project was developed on **August 2025**.
 
-<a href="https://ito210.github.io/3d-portfolio-website/" target="_blank" rel="noopener noreferrer">Live Page</a>
+[Live Page](https://ito210.github.io/3d-portfolio-website/)
 
 ## Features
 
