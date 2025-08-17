@@ -22,7 +22,7 @@ export default function AboutMe({ setTarget, language }) {
     },
   };
 
-  const t = content[language] || content.en; // fallback to English
+  const t = content[language] || content.en;
 
   return (
     <div className="h-full w-full relative bg-neutral-200 select-none ">
@@ -39,7 +39,7 @@ export default function AboutMe({ setTarget, language }) {
         </div>
 
         <img
-          src="images/profile.jpeg"
+          src="images/profile.webp"
           className="flex object-cover rounded-4xl shadow-lg shadow-neutral-500 h-1/3 border border-neutral-50"
         />
 

@@ -17,17 +17,18 @@ import {
   SiHtml5,
   SiCss3,
   SiJss,
+  SiDocker,
 } from "react-icons/si";
 
 export const projects = [
   {
     title: "3D Portfolio",
-    can: "images/projects/3dPortfolio/3dPortfolioCan.png",
+    can: "images/projects/3dPortfolio/3dPortfolioCan.webp",
     images: [
-      { src: "images/projects/3dPortfolio/gif1.gif", alt: "Image1" },
-      { src: "images/projects/3dPortfolio/gif2.gif", alt: "Image2" },
-      { src: "images/projects/3dPortfolio/gif3.gif", alt: "Image3" },
-      { src: "images/projects/3dPortfolio/gif4.gif", alt: "Image4" },
+      { src: "images/projects/3dPortfolio/1.gif", alt: "Image1" },
+      { src: "images/projects/3dPortfolio/2.gif", alt: "Image2" },
+      { src: "images/projects/3dPortfolio/3.gif", alt: "Image3" },
+      { src: "images/projects/3dPortfolio/4.gif", alt: "Image4" },
     ],
     description: {
       en: "3DPortfolio is an interactive personal portfolio built with Three.js and React Three Fiber. It presents a 3D environment with animated objects that represent sections like About Me, Contact, Music, Games, and Projects. HTML content is rendered directly on 3D model screens, enhanced with GSAP animations and multilingual support.",
@@ -56,23 +57,31 @@ export const projects = [
 
   {
     title: "Cicata Nexus",
-    can: "images/projects/CicataNexus/CicataNexusCan.png",
+    can: "images/projects/CicataNexus/CicataNexusCan.webp",
     images: [
-      { src: "images/projects/CicataNexus/1.png", alt: "Image1" },
-      { src: "images/projects/CicataNexus/2.png", alt: "Image2" },
-      { src: "images/projects/CicataNexus/3.png", alt: "Image3" },
-      { src: "images/projects/CicataNexus/4.png", alt: "Image4" },
-      { src: "images/projects/CicataNexus/5.png", alt: "Image5" },
-      { src: "images/projects/CicataNexus/6.png", alt: "Image6" },
-      { src: "images/projects/CicataNexus/7.png", alt: "Image7" },
-      { src: "images/projects/CicataNexus/8.jpeg", alt: "Image8" },
-      { src: "images/projects/CicataNexus/9.jpeg", alt: "Image9" },
+      { src: "images/projects/CicataNexus/1.webp", alt: "Image1" },
+      { src: "images/projects/CicataNexus/2.webp", alt: "Image2" },
+      { src: "images/projects/CicataNexus/3.webp", alt: "Image3" },
+      { src: "images/projects/CicataNexus/4.webp", alt: "Image4" },
+      { src: "images/projects/CicataNexus/5.webp", alt: "Image5" },
+      { src: "images/projects/CicataNexus/6.webp", alt: "Image6" },
+      { src: "images/projects/CicataNexus/7.webp", alt: "Image7" },
+      { src: "images/projects/CicataNexus/8.webp", alt: "Image8" },
+      { src: "images/projects/CicataNexus/9.webp", alt: "Image9" },
     ],
     description: {
       en: "Cicata Nexus is a web-based service request platform that centralizes equipment, materials, and support requests. It features role-specific dashboards, scheduling tools, and inventory tracking to streamline laboratory operations.",
       es: "Cicata Nexus es una plataforma web para la gestión de solicitudes de servicios que centraliza solicitudes de equipo, materiales y soporte. Cuenta con paneles específicos por rol, herramientas de programación y control de inventario para optimizar operaciones de laboratorio.",
     },
-    tech: [SiReact, SiTailwindcss, SiVite, SiMongodb, SiExpress, SiNodedotjs],
+    tech: [
+      SiReact,
+      SiTailwindcss,
+      SiVite,
+      SiMongodb,
+      SiExpress,
+      SiNodedotjs,
+      SiDocker,
+    ],
     madeFor: [
       "CICATA Unidad Morelos",
       "https://mx.linkedin.com/company/cicatamor",
@@ -99,13 +108,13 @@ export const projects = [
 
   {
     title: "Health Sync",
-    can: "images/projects/HealthSync/HealthSyncCan.png",
+    can: "images/projects/HealthSync/HealthSyncCan.webp",
     images: [
-      { src: "images/projects/HealthSync/image1.png", alt: "Image1" },
-      { src: "images/projects/HealthSync/image2.png", alt: "Image2" },
-      { src: "images/projects/HealthSync/image3.png", alt: "Image3" },
-      { src: "images/projects/HealthSync/image4.png", alt: "Image4" },
-      { src: "images/projects/HealthSync/image5.jpeg", alt: "Image5" },
+      { src: "images/projects/HealthSync/1.webp", alt: "Image1" },
+      { src: "images/projects/HealthSync/2.webp", alt: "Image2" },
+      { src: "images/projects/HealthSync/3.webp", alt: "Image3" },
+      { src: "images/projects/HealthSync/4.webp", alt: "Image4" },
+      { src: "images/projects/HealthSync/5.webp", alt: "Image5" },
     ],
     madeFor: ["Hospital del Niño Morelense", "https://www.hnm.org.mx/"],
     description: {
@@ -144,12 +153,12 @@ export const projects = [
 
   {
     title: "AI Racing Line",
-    can: "images/projects/AIRacingLine/AIRacingLineCan.png",
+    can: "images/projects/AIRacingLine/AIRacingLineCan.webp",
     images: [
-      { src: "images/projects/AIRacingLine/image1.png", alt: "Image1" },
-      { src: "images/projects/AIRacingLine/image2.png", alt: "Image2" },
-      { src: "images/projects/AIRacingLine/image3.png", alt: "Image3" },
-      { src: "images/projects/AIRacingLine/image4.png", alt: "Image4" },
+      { src: "images/projects/AIRacingLine/1.webp", alt: "Image1" },
+      { src: "images/projects/AIRacingLine/2.webp", alt: "Image2" },
+      { src: "images/projects/AIRacingLine/3.webp", alt: "Image3" },
+      { src: "images/projects/AIRacingLine/4.webp", alt: "Image4" },
     ],
     description: {
       en: "AIRacingLine is an AI-powered Unity tool that generates optimal racing lines and gives speed feedback in real time. An ML-Agents-trained AI drives the ideal path, which is recorded and shown with dynamic colors to guide acceleration and braking.",
@@ -179,14 +188,14 @@ export const projects = [
 
   {
     title: "Code Cuisine",
-    can: "images/projects/CodeCuisine/CodeCuisineCan.png",
+    can: "images/projects/CodeCuisine/CodeCuisineCan.webp",
     images: [
-      { src: "images/projects/CodeCuisine/image1.png", alt: "Image1" },
-      { src: "images/projects/CodeCuisine/gif1.gif", alt: "Image2" },
-      { src: "images/projects/CodeCuisine/image2.png", alt: "Image3" },
-      { src: "images/projects/CodeCuisine/image3.png", alt: "Image4" },
-      { src: "images/projects/CodeCuisine/image4.png", alt: "Image5" },
-      { src: "images/projects/CodeCuisine/image5.jpg", alt: "Image6" },
+      { src: "images/projects/CodeCuisine/2.webp", alt: "Image2" },
+      { src: "images/projects/CodeCuisine/1.gif", alt: "Image1" },
+      { src: "images/projects/CodeCuisine/3.webp", alt: "Image3" },
+      { src: "images/projects/CodeCuisine/4.webp", alt: "Image4" },
+      { src: "images/projects/CodeCuisine/5.webp", alt: "Image5" },
+      { src: "images/projects/CodeCuisine/6.webp", alt: "Image6" },
     ],
     madeFor: ["Aulify", "https://www.aulify.mx/"],
     description: {
@@ -226,11 +235,11 @@ export const projects = [
 
   {
     title: "Aire Sano",
-    can: "images/projects/AireSano/AireSanoCan.png",
+    can: "images/projects/AireSano/AireSanoCan.webp",
     images: [
-      { src: "images/projects/AireSano/image1.png", alt: "Image1" },
-      { src: "images/projects/AireSano/image2.png", alt: "Image2" },
-      { src: "images/projects/AireSano/image3.png", alt: "Image3" },
+      { src: "images/projects/AireSano/1.webp", alt: "Image1" },
+      { src: "images/projects/AireSano/2.webp", alt: "Image2" },
+      { src: "images/projects/AireSano/3.webp", alt: "Image3" },
     ],
     description: {
       en: "AireSano is an IoT-based air quality monitoring system using an ESP32 microcontroller. It collects temperature, humidity, and air quality data, sends it to a REST API, stores it in MySQL, and displays it on a web dashboard for real-time and historical tracking.",
