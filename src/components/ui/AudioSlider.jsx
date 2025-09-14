@@ -73,7 +73,7 @@ export default function AudioSlider({ duration = 1, progress = 0, onChange }) {
         />
       </div>
 
-      <div className="w-full pt-4 text-2xl text-neutral-900 flex justify-between">
+      <div className="w-full pt-4 text-xl md:text-2xl text-neutral-900 flex justify-between">
         <p>{formatTime(progress)}</p>
         <p>{formatTime(duration)}</p>
       </div>

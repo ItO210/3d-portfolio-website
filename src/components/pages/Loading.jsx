@@ -250,7 +250,7 @@ export default function Loading({ loaded, setShowLoading }) {
   return (
     <div
       ref={containerRef}
-      className="absolute w-full h-full bg-neutral-800 text-white pointer-events-auto select-none font-mono "
+      className="w-full h-[100dvh] bg-neutral-800 text-white pointer-events-auto select-none font-mono "
     >
       {/* Scanlines */}
       <div
@@ -266,7 +266,7 @@ export default function Loading({ loaded, setShowLoading }) {
       {/* Main content */}
       <div className="h-full w-full p-8 flex flex-col justify-between ">
         {/* Top bar */}
-        <div className="flex whitespace-pre justify-between text-4xl">
+        <div className="flex whitespace-pre justify-between text-xl md:text-4xl">
           <div ref={titleRef}>3D Portfolio</div>
           <div ref={timeRef}>{timeString}</div>
         </div>
@@ -279,7 +279,7 @@ export default function Loading({ loaded, setShowLoading }) {
               ref={enterRef}
               onMouseEnter={() => setHovered(true)}
               onMouseLeave={() => setHovered(false)}
-              className="relative bg-transparent w-70 h-60 cursor-pointer text-white text-5xl "
+              className="relative bg-transparent w-70 h-60 cursor-pointer text-white"
               onClick={handleExit}
             >
               <span
@@ -309,7 +309,7 @@ export default function Loading({ loaded, setShowLoading }) {
         </div>
 
         {/* Bottom left counter */}
-        <div ref={counterRef} className="text-4xl">
+        <div ref={counterRef} className="text-xl md:text-4xl">
           REC {pad(Math.floor(totalSeconds / 60))}:{pad(totalSeconds % 60)}
         </div>
       </div>

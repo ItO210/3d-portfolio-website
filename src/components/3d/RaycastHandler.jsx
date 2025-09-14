@@ -17,8 +17,9 @@ export default function RaycastHandler({
   const pointer = useRef(new THREE.Vector2());
   const hovered = useRef(null);
   const hoverTargets = useRef([]);
-  const { camera } = useThree();
+  const { camera, gl } = useThree();
   const [animating, setAnimating] = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
 
   // --- helpers ---
   const findNavEntryBy = useCallback(
@@ -95,7 +96,6 @@ export default function RaycastHandler({
           controlsRef.current.update();
         },
         onComplete: () => {
-          // Re-enable controls when animation finishes
           controlsRef.current.enabled = true;
           controlsRef.current.enableZoom = true;
           setAnimating(false);
@@ -106,15 +106,27 @@ export default function RaycastHandler({
     [camera, controlsRef, findNavEntryBy, currentTarget],
   );
 
+  // detect touch devices
+  useEffect(() => {
+    setIsTouch("ontouchstart" in window || navigator.maxTouchPoints > 0);
+  }, []);
+
+  // update pointer coordinates relative to canvas
+  const updatePointer = (clientX, clientY) => {
+    const rect = gl.domElement.getBoundingClientRect();
+    pointer.current.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+    pointer.current.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+  };
+
+  // handle hover movement (desktop only)
   useEffect(() => {
     const handleMove = (e) => {
-      const bounds = document.body.getBoundingClientRect();
-      pointer.current.x = ((e.clientX - bounds.left) / bounds.width) * 2 - 1;
-      pointer.current.y = -((e.clientY - bounds.top) / bounds.height) * 2 + 1;
+      if (isTouch) return; // skip hover on mobile
+      updatePointer(e.clientX, e.clientY);
     };
     window.addEventListener("pointermove", handleMove);
     return () => window.removeEventListener("pointermove", handleMove);
-  }, []);
+  }, [isTouch]);
 
   useEffect(() => {
     hoverTargets.current = targets.filter((t) =>
@@ -128,7 +140,10 @@ export default function RaycastHandler({
     };
   }, []);
 
+  // hover logic (desktop only)
   useFrame(() => {
+    if (isTouch) return;
+
     raycaster.current.setFromCamera(pointer.current, camera);
     const intersects = raycaster.current.intersectObjects(targets);
 
@@ -140,7 +155,6 @@ export default function RaycastHandler({
         if (!navEntry) return;
 
         if (hovered.current !== hit) {
-          // unhover previous
           if (hovered.current) {
             const prevEntry = findNavEntryBy("glass", hovered.current.name);
             if (prevEntry) {
@@ -180,6 +194,7 @@ export default function RaycastHandler({
     }
   });
 
+  // focus camera when screenMesh changes
   useEffect(() => {
     if (screenMesh) {
       controlsRef.current.enabled = false;
@@ -190,15 +205,23 @@ export default function RaycastHandler({
     }
   }, [screenMesh, currentTarget, focusCameraOnObject]);
 
+  // handle click / tap
   useEffect(() => {
-    const handleClick = () => {
-      raycaster.current.setFromCamera(pointer.current, camera);
+    const handleClick = (e) => {
+      let clientX, clientY;
+      if (e.touches && e.touches.length > 0) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      } else if (e.changedTouches && e.changedTouches.length > 0) {
+        clientX = e.changedTouches[0].clientX;
+        clientY = e.changedTouches[0].clientY;
+      } else {
+        clientX = e.clientX;
+        clientY = e.clientY;
+      }
 
-      const clickTargets = targets.filter((t) =>
-        Object.values(navConfig).some(
-          (conf) => conf.glass === t.name || conf.target === t.name,
-        ),
-      );
+      updatePointer(clientX, clientY);
+      raycaster.current.setFromCamera(pointer.current, camera);
 
       const intersects = raycaster.current.intersectObjects(targets);
       if (intersects.length === 0) return;
@@ -235,10 +258,15 @@ export default function RaycastHandler({
     };
 
     window.addEventListener("pointerdown", handleClick);
+    window.addEventListener("touchstart", handleClick);
     window.addEventListener("pointerup", handlePointerUp);
+    window.addEventListener("touchend", handlePointerUp);
+
     return () => {
       window.removeEventListener("pointerdown", handleClick);
+      window.removeEventListener("touchstart", handleClick);
       window.removeEventListener("pointerup", handlePointerUp);
+      window.removeEventListener("touchend", handlePointerUp);
     };
   }, [
     targets,

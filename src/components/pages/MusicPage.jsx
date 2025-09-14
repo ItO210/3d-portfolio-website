@@ -43,10 +43,10 @@ export default function MusicPage({ audioRef }) {
         <img
           src={currentTrack.image}
           alt="Track Art"
-          className="h-2/3 object-cover mb-8 rounded-2xl shadow-lg shadow-neutral-500 backdrop-blur-3xl bg-neutral-200/60 border border-neutral-50"
+          className="h-2/3 object-cover mb-4 md:mb-8 rounded-2xl shadow-lg shadow-neutral-500 backdrop-blur-3xl bg-neutral-200/60 border border-neutral-50"
         />
-        <div className="flex-col text-neutral-900 text-5xl w-full flex  ">
-          <h1 className="pl-4">{currentTrack.title}</h1>
+        <div className="flex-col text-neutral-900 text-3xl md:text-5xl w-full flex h-full items-center justify-around">
+          <h1 className="pl-4 w-full">{currentTrack.title}</h1>
           <AudioControls
             currentTrackIndex={currentTrackIndex}
             audioRef={audioRef}

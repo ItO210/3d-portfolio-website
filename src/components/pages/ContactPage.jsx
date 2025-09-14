@@ -43,19 +43,21 @@ export default function ContactPage({ setTarget, language }) {
   return (
     <div className="w-full h-full relative bg-neutral-200 select-none">
       <div className="absolute w-full h-full bg-grid"></div>
-      <div className="absolute w-full h-full text-2xl p-4 flex flex-col items-center justify-between border font-mono">
-        <div className="w-full text-center items-center justify-between flex font-mono">
+      <div className="absolute w-full h-full text-xl md:text-2xl p-4 flex flex-col items-center justify-between border font-mono">
+        <div className="w-full text-center items-center justify-between flex font-mono ">
           <button onClick={() => setTarget("AboutMe_Red_Text_Target")}>
-            <MdKeyboardArrowLeft size={50} />
+            <MdKeyboardArrowLeft className="w-7 h-7 md:w-12 md:h-12" />
           </button>
-          <h1 className="text-4xl">{t.title}</h1>
+          <h1 className="text-2xl md:text-4xl">{t.title}</h1>
           <button onClick={() => setTarget("AboutMe_Red_Text_Target")}>
-            <MdKeyboardArrowRight size={50} />
+            <MdKeyboardArrowRight className="w-7 h-7 md:w-12 md:h-12" />
           </button>
         </div>
 
-        <div className="w-full h-full text-center items-center justify-center flex flex-col gap-4">
-          <h2 className="w-full text-center text-3xl font-mono">{t.findMe}</h2>
+        <div className="w-full text-center items-center justify-center flex flex-col md:gap-4 ">
+          <h2 className="w-full text-center text-xl md:text-3xl font-mono">
+            {t.findMe}
+          </h2>
           <div className="w-full flex items-center justify-around">
             <a
               href="https://www.linkedin.com/in/carlositom/"
@@ -63,7 +65,7 @@ export default function ContactPage({ setTarget, language }) {
               rel="noopener noreferrer"
               className="font-mono flex gap-4 items-center justify-center p-4 rounded-2xl shadow-md shadow-neutral-500 hover:scale-105 transition-transform bg-neutral-200/80 border border-neutral-50"
             >
-              <BsLinkedin size={40} />
+              <BsLinkedin className="w-7 h-7 md:w-12 md:h-12" />
             </a>
             <a
               href="https://github.com/ItO210"
@@ -71,7 +73,7 @@ export default function ContactPage({ setTarget, language }) {
               rel="noopener noreferrer"
               className="font-mono flex gap-4 items-center justify-center p-4 rounded-2xl shadow-md shadow-neutral-500 hover:scale-105 transition-transform bg-neutral-200/80 border border-neutral-50"
             >
-              <BsGithub size={40} />
+              <BsGithub className="w-7 h-7 md:w-12 md:h-12" />
             </a>
             <a
               href="https://x.com/ItO_210"
@@ -79,7 +81,7 @@ export default function ContactPage({ setTarget, language }) {
               rel="noopener noreferrer"
               className="font-mono flex gap-4 items-center justify-center p-4 rounded-2xl shadow-md shadow-neutral-500 hover:scale-105 transition-transform bg-neutral-200/80 border border-neutral-50"
             >
-              <BsTwitterX size={40} />
+              <BsTwitterX className="w-7 h-7 md:w-12 md:h-12" />
             </a>
           </div>
         </div>
@@ -100,9 +102,9 @@ export default function ContactPage({ setTarget, language }) {
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="w-full h-full flex flex-col text-2xl gap-2"
+            className="w-full flex flex-col text-lg md:text-2xl md:gap-2 mb-4"
           >
-            <h2 className="text-3xl w-full text-center font-mono">
+            <h2 className="text-xl md:text-3xl w-full text-center font-mono">
               {t.orMessage}
             </h2>
             <div className="w-full h-full px-4">
@@ -142,7 +144,7 @@ export default function ContactPage({ setTarget, language }) {
             <div className="w-full h-full px-4">
               <button
                 type="submit"
-                className="font-mono flex gap-4 items-center justify-center px-4 py-2 rounded-2xl shadow-md shadow-neutral-500 hover:scale-105 transition-transform bg-neutral-200/80 border border-neutral-50"
+                className="font-mono flex  items-center justify-center px-4 md:py-2 rounded-2xl shadow-md shadow-neutral-500 hover:scale-105 transition-transform bg-neutral-200/80 border border-neutral-50"
               >
                 {t.send}
               </button>

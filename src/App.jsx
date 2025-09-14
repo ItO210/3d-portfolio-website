@@ -66,7 +66,7 @@ export default function App() {
               onClick={handleCameraReset}
               className="pointer-events-auto p-4  bg-neutral-800/40 backdrop-blur-xs rounded-xl cursor-pointer hover:bg-neutral-800"
             >
-              <BsFillHouseDoorFill size={30} />
+              <BsFillHouseDoorFill className="w-6 h-6 md:w-8 md:h-8" />
             </button>
             <div className="h-full flex gap-2">
               <LanguageSelector selected={language} onChange={setLanguage} />

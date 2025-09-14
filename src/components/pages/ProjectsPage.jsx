@@ -42,23 +42,25 @@ export default function ProjectsPage({ language }) {
   if (selectedProject) {
     // Fullscreen view
     return (
-      <div className="font-mono w-full h-full relative bg-neutral-200 select-none">
+      <div className="font-mono w-full h-full relative bg-neutral-200 select-none text-xl md:text-3xl">
         <div className="absolute w-full h-full bg-grid"></div>
-        <div className="absolute w-full h-full text-3xl font-mono p-6 flex flex-col items-center justify-between gap-2">
+        <div className="absolute w-full h-full p-6 flex flex-col items-center justify-between gap-2">
           <div className="flex items-center justify-center overflow-hidden w-full h-2/5">
             <Carousel items={createImageCards(selectedProject.images)} />
           </div>
 
-          <div className="gap-2 h-3/5 w-full flex flex-col justify-around">
+          <div className="md:gap-2 h-3/5 w-full flex flex-col justify-around">
             <div className="text-center w-full flex flex-col">
-              <h1 className="text-4xl font-bold">{selectedProject.title}</h1>
+              <h1 className="text-3xl md:text-4xl font-bold">
+                {selectedProject.title}
+              </h1>
               <h2 className="text-xl font-light">
                 {selectedProject.date[language]}
               </h2>
             </div>
             {selectedProject.madeFor && (
-              <div className="flex flex-col justify-center items-center w-full ">
-                <p className="text-2xl font-bold">{t.madeFor}</p>
+              <div className="flex md:flex-col gap-6 md:gap-0 justify-center items-center w-full ">
+                <p className="text-xl md:text-2xl font-bold">{t.madeFor}</p>
                 <a
                   href={selectedProject.madeFor[1]}
                   target="_blank"
@@ -77,7 +79,7 @@ export default function ProjectsPage({ language }) {
               <TechCarousel icons={selectedProject.tech} />
             </div>
 
-            <ul className="list-disc pl-6 text-2xl">
+            <ul className="list-disc pl-6 text-lg md:text-2xl">
               {(selectedProject.features[language] || []).map(
                 (feature, index) => (
                   <li key={index}>{feature}</li>
@@ -111,15 +113,15 @@ export default function ProjectsPage({ language }) {
 
   // Grid view
   return (
-    <div className="w-full h-full relative bg-neutral-200 select-none font-mono">
+    <div className="w-full h-full relative bg-neutral-200 select-none font-mono text-2xl md:text-3xl text-center">
       <div className="absolute w-full h-full bg-grid"></div>
-      <div className="absolute w-full h-full text-3xl font-mono p-8 flex flex-col items-center gap-6">
+      <div className="absolute w-full h-full  font-mono p-8 flex flex-col items-center gap-6">
         <div className="w-full h-full grid grid-cols-3 grid-rows-3 gap-4">
           {currentProjects.map((project, index) => (
             <div
               key={index}
               onClick={() => setSelectedProject(project)}
-              className="flex flex-col shadow-lg shadow-neutral-500 bg-neutral-200/60 backdrop-blur-xs items-center justify-center text-center rounded-2xl cursor-pointer hover:scale-105 transition-transform border border-neutral-50"
+              className="flex flex-col shadow-lg shadow-neutral-500 bg-neutral-200/60 backdrop-blur-xs items-center justify-center rounded-2xl cursor-pointer hover:scale-105 transition-transform border border-neutral-50"
             >
               <img
                 src={project.can}
@@ -132,7 +134,7 @@ export default function ProjectsPage({ language }) {
         </div>
 
         {/* Pagination Controls */}
-        <div className="flex gap-4 mt-4 text-2xl">
+        <div className="flex gap-4 mt-4">
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}

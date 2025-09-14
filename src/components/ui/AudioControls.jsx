@@ -77,13 +77,17 @@ export default function AudioControls({
       />
       <div className="flex items-center gap-6 text-neutral-900 text-4xl">
         <button onClick={onPrev} title="Previous">
-          <BsSkipStartFill size={50} />
+          <BsSkipStartFill className="w-7 h-7 md:w-12 md:h-12" />
         </button>
         <button onClick={togglePlay} title="Play/Pause">
-          {isPlaying ? <BsPauseFill size={50} /> : <BsPlayFill size={50} />}
+          {isPlaying ? (
+            <BsPauseFill className="w-8 h-8 md:w-12 md:h-12" />
+          ) : (
+            <BsPlayFill className="w-8 h-8 md:w-12 md:h-12" />
+          )}
         </button>
         <button onClick={onNext} title="Next">
-          <BsSkipEndFill size={50} />
+          <BsSkipEndFill className="w-8 h-8 md:w-12 md:h-12" />
         </button>
       </div>
     </div>

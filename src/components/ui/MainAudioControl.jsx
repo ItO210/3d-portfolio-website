@@ -6,6 +6,11 @@ const MainAudioControl = ({ audioRef }) => {
   const [muted, setMuted] = useState(false);
   const [volume, setVolume] = useState(0.2); // range: 0 to 1
   const [showSlider, setShowSlider] = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
+  // Detect touch devices
+  useEffect(() => {
+    setIsTouch("ontouchstart" in window || navigator.maxTouchPoints > 0);
+  }, []);
 
   const handleToggleMute = () => {
     if (audioRef.current) {
@@ -38,17 +43,19 @@ const MainAudioControl = ({ audioRef }) => {
   return (
     <div
       className="h-1/5"
-      onMouseEnter={() => setShowSlider(true)}
-      onMouseLeave={() => setShowSlider(false)}
+      {...(!isTouch && {
+        onMouseEnter: () => setShowSlider(true),
+        onMouseLeave: () => setShowSlider(false),
+      })}
     >
       <button
         onClick={handleToggleMute}
         className={`pointer-events-auto p-4  backdrop-blur-xs ${showSlider ? "rounded-t-xl bg-neutral-800" : "rounded-xl bg-neutral-800/40"} cursor-pointer hover:bg-neutral-800`}
       >
         {muted ? (
-          <BsFillVolumeMuteFill size={30} />
+          <BsFillVolumeMuteFill className="w-6 h-6 md:w-8 md:h-8" />
         ) : (
-          <BsFillVolumeUpFill size={30} />
+          <BsFillVolumeUpFill className="w-6 h-6 md:w-8 md:h-8" />
         )}
       </button>
       {/* Volume slider (vertical) */}

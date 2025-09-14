@@ -6,6 +6,7 @@ import { navConfig } from "../../utils/navConfig.js";
 export default function AttachHtmlToMesh({ mesh, children }) {
   const [size, setSize] = useState({ width: 1, height: 1 });
   const [position, setPosition] = useState([0, 0, 0]);
+  const [isMedium, setIsMedium] = useState(window.innerWidth >= 768);
   const htmlRef = useRef();
 
   const configEntry = Object.values(navConfig).find(
@@ -56,6 +57,15 @@ export default function AttachHtmlToMesh({ mesh, children }) {
 
   if (!mesh || !configEntry) return null;
 
+  useEffect(() => {
+    const onResize = () => setIsMedium(window.innerWidth >= 768);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  const distanceFactor = isMedium ? 0.4 : 0.6; // md+ = 0.4, below md = 0.6
+  const multiplier = isMedium ? 1000 : 700; // md+ = 1000px, below md = 700px
+
   return (
     <Html
       ref={htmlRef}
@@ -63,11 +73,11 @@ export default function AttachHtmlToMesh({ mesh, children }) {
       rotation={configEntry.htmlRotation}
       transform
       occlude="blending"
-      distanceFactor={0.4}
       center
+      distanceFactor={distanceFactor}
       style={{
-        width: `${size.width * 1000}px`,
-        height: `${size.height * 1000}px`,
+        width: `${size.width * multiplier}px`,
+        height: `${size.height * multiplier}px`,
       }}
     >
       <div className="w-full h-full flex items-center justify-center">
