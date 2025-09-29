@@ -77,6 +77,9 @@ const Carousel = ({ items, autoPlay = true, interval = 3000 }) => {
               style={{
                 transform: `translateX(${baseOffset}%) scale(${scale})`,
                 transition: transitioning ? "transform 0.5s ease" : "none",
+                backfaceVisibility: "hidden",
+                transformStyle: "preserve-3d",
+                willChange: "transform",
               }}
             >
               {item}

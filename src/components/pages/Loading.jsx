@@ -22,22 +22,19 @@ export default function Loading({ loaded, setShowLoading }) {
   const pad = (val) => (val < 10 ? "0" + val : val);
 
   const handleExit = () => {
-    // Start the exit animation
     setExiting(true);
 
-    // Example: fade out and scale down
     gsap.to(containerRef.current, {
       opacity: 0,
       scale: 1.5,
       duration: 1.0,
       ease: "power2.inOut",
       onComplete: () => {
-        setShowLoading(false); // Now unmount
+        setShowLoading(false);
       },
     });
   };
 
-  // Update counter every second
   useEffect(() => {
     const interval = setInterval(() => {
       setTotalSeconds((prev) => prev + 1);
@@ -45,7 +42,6 @@ export default function Loading({ loaded, setShowLoading }) {
     return () => clearInterval(interval);
   }, []);
 
-  // Update live clock every second
   useEffect(() => {
     const updateClock = () => {
       const now = new Date();
@@ -82,32 +78,16 @@ export default function Loading({ loaded, setShowLoading }) {
         !counterRef.current ||
         !centerRef.current
       ) {
-        return; // Bail if refs not ready
+        return;
       }
 
-      // Scanline animations
       const scanMove = gsap.to(linesRef.current, {
-        backgroundPosition: "0px 6px",
+        y: 6,
         duration: 0.2,
         repeat: -1,
         ease: "none",
       });
 
-      const scanOpacity = gsap.to(linesRef.current, {
-        keyframes: [
-          { opacity: 0.6, duration: 0.6 },
-          { opacity: 0.3, duration: 0.6 },
-          { opacity: 0.5, duration: 0.45 },
-          { opacity: 0.8, duration: 0.45 },
-          { opacity: 0.4, duration: 0.6 },
-          { opacity: 0.7, duration: 0.6 },
-          { opacity: 0.6, duration: 0.6 },
-        ],
-        repeat: -1,
-        ease: "linear",
-      });
-
-      // Title text shadow
       gsap.to(titleRef.current, {
         keyframes: textShadows.map((shadow) => ({
           textShadow: shadow,
@@ -118,7 +98,6 @@ export default function Loading({ loaded, setShowLoading }) {
         ease: "steps(9)",
       });
 
-      // Typing effect for title
       const text = "3D Portfolio";
       gsap.to(
         { i: 0 },
@@ -129,7 +108,7 @@ export default function Loading({ loaded, setShowLoading }) {
           ease: "none",
           onUpdate: function () {
             const el = titleRef.current;
-            if (!el) return; // Prevent null errors
+            if (!el) return;
 
             const val = Math.floor(this.targets()[0].i);
             if (val <= text.length) {
@@ -144,7 +123,6 @@ export default function Loading({ loaded, setShowLoading }) {
         },
       );
 
-      // Time and counter shadow effect
       gsap.to([timeRef.current, counterRef.current], {
         keyframes: textShadows.map((shadow) => ({
           textShadow: shadow,
@@ -155,7 +133,6 @@ export default function Loading({ loaded, setShowLoading }) {
         ease: "steps(9)",
       });
 
-      // Center text shadow
       gsap.to(centerRef.current, {
         keyframes: textShadows.map((shadow) => ({
           textShadow: shadow,
@@ -167,7 +144,7 @@ export default function Loading({ loaded, setShowLoading }) {
       });
     });
 
-    return () => ctx.revert(); // Clean up all animations on unmount
+    return () => ctx.revert();
   }, []);
 
   useEffect(() => {
@@ -206,7 +183,6 @@ export default function Loading({ loaded, setShowLoading }) {
     if (!enterRef.current) return;
 
     if (hovered) {
-      // Show Japanese (move up)
       gsap.to(jpRef.current, {
         y: -80,
         opacity: 1,
@@ -214,7 +190,6 @@ export default function Loading({ loaded, setShowLoading }) {
         ease: "power2.out",
       });
 
-      // Keep English in place
       gsap.to(engRef.current, {
         y: 0,
         opacity: 1,
@@ -222,7 +197,6 @@ export default function Loading({ loaded, setShowLoading }) {
         ease: "power2.out",
       });
 
-      // Show Spanish (move down)
       gsap.to(spaRef.current, {
         y: 80,
         opacity: 1,
@@ -230,7 +204,6 @@ export default function Loading({ loaded, setShowLoading }) {
         ease: "power2.out",
       });
     } else {
-      // Reset: Japanese and Spanish go back to center and fade out
       gsap.to([jpRef.current, spaRef.current], {
         y: 0,
         opacity: 0,
@@ -238,7 +211,6 @@ export default function Loading({ loaded, setShowLoading }) {
         ease: "power2.inOut",
       });
 
-      // Ensure English is centered and visible
       gsap.to(engRef.current, {
         y: 0,
         opacity: 1,
@@ -247,12 +219,17 @@ export default function Loading({ loaded, setShowLoading }) {
       });
     }
   }, [hovered]);
+
   return (
     <div
       ref={containerRef}
       className="w-full h-[100dvh] bg-neutral-800 text-white pointer-events-auto select-none font-mono "
+      style={{
+        transform: "translateZ(0)",
+        backfaceVisibility: "hidden",
+        willChange: "opacity, transform",
+      }}
     >
-      {/* Scanlines */}
       <div
         ref={linesRef}
         className="fixed inset-0 pointer-events-none opacity-60"
@@ -263,9 +240,7 @@ export default function Loading({ loaded, setShowLoading }) {
         }}
       />
 
-      {/* Main content */}
       <div className="h-full w-full p-8 flex flex-col justify-between ">
-        {/* Top bar */}
         <div className="flex whitespace-pre justify-between text-xl md:text-4xl">
           <div ref={titleRef}>3D Portfolio</div>
           <div ref={timeRef}>{timeString}</div>
@@ -308,7 +283,6 @@ export default function Loading({ loaded, setShowLoading }) {
           )}
         </div>
 
-        {/* Bottom left counter */}
         <div ref={counterRef} className="text-xl md:text-4xl">
           REC {pad(Math.floor(totalSeconds / 60))}:{pad(totalSeconds % 60)}
         </div>
