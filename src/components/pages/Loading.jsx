@@ -88,6 +88,20 @@ export default function Loading({ loaded, setShowLoading }) {
         ease: "none",
       });
 
+      const scanOpacity = gsap.to(linesRef.current, {
+        keyframes: [
+          { opacity: 0.6, duration: 0.6 },
+          { opacity: 0.3, duration: 0.6 },
+          { opacity: 0.5, duration: 0.45 },
+          { opacity: 0.8, duration: 0.45 },
+          { opacity: 0.4, duration: 0.6 },
+          { opacity: 0.7, duration: 0.6 },
+          { opacity: 0.6, duration: 0.6 },
+        ],
+        repeat: -1,
+        ease: "linear",
+      });
+
       gsap.to(titleRef.current, {
         keyframes: textShadows.map((shadow) => ({
           textShadow: shadow,
