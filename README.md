@@ -4,9 +4,7 @@
 
 Users can explore the 3D space through smooth camera transitions and interact with each section via real HTML content rendered on 3D object surfaces. The experience blends traditional web design with immersive visuals and includes **multilanguage support** and **music controls**.
 
-This project was developed on **August 2025**.
-
-[Live Page](https://ito210.github.io/3d-portfolio-website/)
+Check out the [Live Page](https://ito210.github.io/3d-portfolio-website/)
 
 ## Features
 
@@ -17,7 +15,7 @@ This project was developed on **August 2025**.
 - **Multilanguage Support** – Toggle project language dynamically.
 - **Music Controls** – Background music with playback control.
 
-## Tech Stack
+## Tech Used
 
 - React
 - Three.js
@@ -37,6 +35,6 @@ This project was developed on **August 2025**.
 Everything in this project was created by me, **except the music**.
 
 - All music was made by [@a_beco_](https://soundcloud.com/baron1_3)
-- The 3D model was built in **Blender**, inspired by [@PolygonRunway](https://www.youtube.com/@polygonrunway).
+- The 3D model was made in **Blender**, inspired by [@PolygonRunway](https://www.youtube.com/@polygonrunway).
 - I learned the basics of **Three.js** by following this [tutorial](https://www.youtube.com/watch?v=AB6sulUMRGE&t=25130s).
 
