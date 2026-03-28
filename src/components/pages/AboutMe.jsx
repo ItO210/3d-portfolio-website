@@ -10,6 +10,7 @@ export default function AboutMe({ setTarget, language }) {
       desc2:
         "Currently in my final year as a Computer Science and Technology student at Tecnológico de Monterrey.",
       cv: "Check out my CV",
+      cvFile: "/images/CarlosItoMiyasaki_CV(en).pdf"
     },
     es: {
       title: "Sobre mí",
@@ -19,6 +20,7 @@ export default function AboutMe({ setTarget, language }) {
       desc2:
         "Actualmente en mi último año como estudiante de Ciencia y Tecnología de la Computación en el Tecnológico de Monterrey.",
       cv: "Descarga mi CV",
+      cvFile: "/images/CarlosItoMiyasaki_CV(es).pdf"
     },
   };
 
@@ -49,7 +51,7 @@ export default function AboutMe({ setTarget, language }) {
           <p>{t.desc2}</p>
 
           <a
-            href="me/Carlos_Ito_CV.pdf"
+            href={t.cvFile}
             download
             target="_blank"
             rel="noopener noreferrer"

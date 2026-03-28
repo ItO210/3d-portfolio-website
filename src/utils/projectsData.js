@@ -17,10 +17,48 @@ import {
   SiHtml5,
   SiCss3,
   SiJss,
-  SiDocker,
+  SiDocker, 
+  SiPytorch,
+  SiPython,
+  SiNumpy,
+  SiScikitlearn,
 } from "react-icons/si";
 
 export const projects = [
+  {
+    title: "ArcFace Backbones",
+    can: "images/projects/ArcfaceBackbones/ArcfaceCan.webp",
+    images: [
+      { src: "images/projects/ArcfaceBackbones/1.webp", alt: "Image1" },
+      { src: "images/projects/ArcfaceBackbones/2.webp", alt: "Image2" },
+      { src: "images/projects/ArcfaceBackbones/3.webp", alt: "Image3" },
+      { src: "images/projects/ArcfaceBackbones/4.webp", alt: "Image4" },
+    ],
+    description: {
+      en: "ArcFace Backbone Comparative is a PyTorch-based research project for evaluating lightweight face recognition backbones using a unified ArcFace pipeline. It simplifies the original InsightFace framework into a single-GPU, PyTorch-only setup, enabling efficient comparison of multiple architectures.",
+      es: "ArcFace Backbone Comparative es un proyecto de investigación en PyTorch para evaluar backbones ligeros de reconocimiento facial usando un pipeline unificado de ArcFace. Simplifica el framework original InsightFace en una implementación optimizada para una sola GPU, permitiendo comparar múltiples arquitecturas de forma eficiente.",
+    },
+    tech: [SiPytorch, SiPython, SiNumpy, SiScikitlearn],
+    features: {
+      en: [
+        "Unified ArcFace pipeline with single-GPU and FP16 support.",
+        "Comparison of lightweight backbones like iResNet, MobileFaceNet, and ShuffleFaceNet.",
+        "Modular and configurable training system.",
+        "Multi-model evaluation with ROC and AUC metrics.",
+        "Model complexity analysis (FLOPs and parameters).",
+      ],
+      es: [
+        "Pipeline unificado de ArcFace con soporte para una sola GPU y FP16.",
+        "Comparación de backbones ligeros como iResNet, MobileFaceNet y ShuffleFaceNet.",
+        "Sistema de entrenamiento modular y configurable.",
+        "Evaluación de múltiples modelos con métricas ROC y AUC.",
+        "Análisis de complejidad (FLOPs y parámetros).",
+      ],
+    },
+    date: { en: "2026", es: "2026" },
+    github: "https://github.com/ItO210/arcface-backbone-comparative",
+  },
+
   {
     title: "3D Portfolio",
     can: "images/projects/3dPortfolio/3dPortfolioCan.webp",
